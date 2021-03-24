@@ -9,7 +9,7 @@ export default function Home() {
       </Head>
 
       <main>
-        routes
+        <h1 className="text-xl text-center">routes</h1>
       </main>
     </div>
   )
