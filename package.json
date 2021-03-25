@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@types/gtag.js": "^0.0.4",
+    "mapbox-gl": "^2.1.1",
     "next": "10.0.5",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "worker-loader": "^3.0.8"
   },
   "devDependencies": {
     "@tailwindcss/jit": "^0.1.8",
