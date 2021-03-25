@@ -21,7 +21,7 @@ type RoutesProps = {
 
 const Home = ({ routes }: RoutesProps) => (
   <main className="bg-[#E6E4E0] h-screen w-screen overflow-hidden">
-    <aside className="w-[430px] max-w-1/2 bg-white min-h-screen overflow-y-auto absolute top-0 bottom-0 p-5">
+    <aside className="w-full sm:w-[430px] bg-white min-h-screen overflow-y-auto sm:absolute top-0 bottom-0 p-5">
       <nav className="flex justify-end">
         <Button onClick={() => window.open('mailto:samuelkraft@me.com?subject=🏃‍♀️ I want to add a route to Trail Runner!')}>
           Add Route
@@ -39,7 +39,7 @@ const Home = ({ routes }: RoutesProps) => (
         <ol>{routes.map(Route)}</ol>
       </section>
     </aside>
-    <div className="text-xl text-forest ml-[430px] h-screen relative">
+    <div className="hidden sm:block text-xl text-forest ml-[430px] h-screen relative">
       <MapBox routes={routes} />
     </div>
   </main>

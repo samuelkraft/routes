@@ -156,7 +156,7 @@ const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element =>
           }
 
           const { href } = links[0]
-          const description = `<a href="${href}" target="_blank" style="outline: none; text-decoration: underline; position: relative; top: 3px;">${name}</p>`
+          const description = `<a href="${href}" target="_blank" rel="noreferrer noopener" style="outline: none; text-decoration: underline; position: relative; top: 3px;">${name}</p>`
 
           new mapboxgl.Popup({ closeButton: false }).setLngLat(coords[0]).setHTML(description).addTo(map)
         })

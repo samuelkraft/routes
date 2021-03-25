@@ -10,7 +10,7 @@ const Stat = ({ type, value }: { type: string; value: string | number }) => (
 const Route = ({ geoJson, distance, elevation }: RouteProps): JSX.Element => {
   const { name, links } = geoJson.features[0].properties
   return (
-    <a href={links[0].href} key={name}>
+    <a href={links[0].href} target="_blank" rel="noreferrer noopener" key={name}>
       <article className="border border-gray-200 rounded mb-5 p-4 relative hover:border-gray-300 transition">
         <p className="font-semibold text-xl mb-1.5 text-forest-darkest">{name}</p>
         <ol className="flex">
