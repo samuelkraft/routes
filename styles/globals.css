@@ -30,3 +30,9 @@
     @apply bg-opacity-100;
   }
 }
+
+div.mapboxgl-map {
+  font-size: 1rem;
+  font-family: 'Proxima Nova', Helvetica Neue;
+  text-decoration: underline;
+}

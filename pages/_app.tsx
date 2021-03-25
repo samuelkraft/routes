@@ -20,7 +20,8 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <>
       <Head>
-        <title>Routes</title>
+        <title>Trail Routes</title>
+        <meta name="description" content="Explore curated trails in Sweden for hiking &amp; running." />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Component {...pageProps} />

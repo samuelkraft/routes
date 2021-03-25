@@ -9,13 +9,15 @@
     "type-check": "./node_modules/.bin/tsc"
   },
   "dependencies": {
+    "@mapbox/togeojson": "^0.16.0",
+    "@turf/length": "^6.3.0",
     "@types/gtag.js": "^0.0.4",
-    "airtable": "^0.10.1",
     "mapbox-gl": "^2.1.1",
     "next": "10.0.5",
     "react": "17.0.1",
     "react-dom": "17.0.1",
-    "worker-loader": "^3.0.8"
+    "worker-loader": "^3.0.8",
+    "xmldom": "^0.5.0"
   },
   "devDependencies": {
     "@tailwindcss/jit": "^0.1.8",
@@ -45,6 +47,6 @@
   },
   "lint-staged": {
     "*.{js,ts,tsx}": "eslint --cache --fix",
-    "*.{js,ts,tsx,scss,md}": "prettier --write"
+    "*.{js,ts,tsx,css,md}": "prettier --write"
   }
 }
