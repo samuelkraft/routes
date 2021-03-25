@@ -8,7 +8,7 @@ const Stat = ({ type, value }: { type: string; value: string | number }) => (
 )
 
 const Route = ({ name, distance, elevation }: RouteProps): JSX.Element => (
-  <article className="border border-gray-200 rounded mb-5 p-4 flex justify-between items-center">
+  <article className="border border-gray-200 rounded mb-5 p-4 flex justify-between items-center" key={name}>
     <div>
       <p className="font-semibold text-xl mb-1.5">{name}</p>
       <ol className="flex">
