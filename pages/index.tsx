@@ -5,7 +5,7 @@ import { routes } from 'data/routes'
 
 export default function Home() {
   return (
-    <main className="bg-black h-screen w-screen overflow-hidden">
+    <main className="bg-[#E6E4E0] h-screen w-screen overflow-hidden">
       <aside className="w-[430px] max-w-1/2 bg-white min-h-screen overflow-y-auto absolute top-0 bottom-0 p-5">
         <nav className="flex justify-end">
           <Button disabled>Add Route</Button>
