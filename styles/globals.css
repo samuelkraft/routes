@@ -2,19 +2,31 @@
 @tailwind components;
 @tailwind utilities;
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-    sans-serif;
+@layer base {
+  @font-face {
+    font-weight: 400;
+    font-family: Proxima Nova;
+    src: url(/fonts/proxima-nova-regular.woff) format('woff');
+  }
+  @font-face {
+    font-weight: 600;
+    font-family: Proxima Nova;
+    src: url(/fonts/proxima-nova-semibold.woff) format('woff');
+  }
+  @font-face {
+    font-weight: 700;
+    font-family: Proxima Nova;
+    src: url(/fonts/proxima-nova-bold.woff) format('woff');
+  }
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.bg-blur {
+  backdrop-filter: saturate(180%) blur(20px);
 }
 
-* {
-  box-sizing: border-box;
+@supports not (backdrop-filter: none) {
+  .bg-blur {
+    backdrop-filter: none;
+    @apply bg-opacity-100;
+  }
 }
