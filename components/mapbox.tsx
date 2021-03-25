@@ -1,16 +1,20 @@
 import { useRef, useState, useEffect } from 'react'
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp'
-import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker'
+import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker' // eslint-disable-line
 
 mapboxgl.workerClass = MapboxWorker
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
 
-const MapBox = ({ coordinates }): JSX.Element => {
+type MapBoxProps = {
+  coordinates: any
+}
+
+const MapBox = ({ coordinates }: MapBoxProps): JSX.Element => {
   const mapContainer = useRef()
   const start = coordinates[0]
-  const [lng, setLng] = useState(start[0])
-  const [lat, setLat] = useState(start[1])
-  const [zoom, setZoom] = useState(13)
+  const [lng, setLng] = useState(start[0]) // eslint-disable-line
+  const [lat, setLat] = useState(start[1]) // eslint-disable-line
+  const [zoom, setZoom] = useState(13) // eslint-disable-line
 
   useEffect(() => {
     const map = new mapboxgl.Map({
