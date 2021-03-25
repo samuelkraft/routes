@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mapbox/togeojson": "^0.16.0",
+    "@turf/center": "^6.3.0",
     "@turf/length": "^6.3.0",
     "@types/gtag.js": "^0.0.4",
     "mapbox-gl": "^2.1.1",

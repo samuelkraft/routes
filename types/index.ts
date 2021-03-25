@@ -2,6 +2,7 @@ export type Route = {
   distance: number
   elevation: number
   geoJson: {
+    type: string
     features: Array<{
       properties: {
         name: string

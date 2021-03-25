@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react'
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp'
 import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker' // eslint-disable-line
+import center from '@turf/center'
 
 // Utils
 import { stringToColour } from 'utils'
@@ -135,7 +136,7 @@ const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element =>
           })
         }
 
-        map.on('click', `${name}-fill`, e => {
+        map.on('click', `${name}-fill`, () => {
           const coords = route.geoJson.features[0].geometry.coordinates
           const bounds = coords.reduce((b, coord) => {
             return b.extend(coord)
@@ -147,18 +148,10 @@ const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element =>
           })
 
           // Open tooltop
-
-          // Ensure that if the map is zoomed out such that multiple
-          // copies of the feature are visible, the popup appears
-          // over the copy being pointed to.
-          while (Math.abs(e.lngLat.lng - coords[0]) > 180) {
-            coords[0] += e.lngLat.lng > coords[0] ? 360 : -360
-          }
-
           const { href } = links[0]
           const description = `<a href="${href}" target="_blank" rel="noreferrer noopener" style="outline: none; text-decoration: underline; position: relative; top: 3px;">${name}</p>`
-
-          new mapboxgl.Popup({ closeButton: false }).setLngLat(coords[0]).setHTML(description).addTo(map)
+          const centerFeature = center(route.geoJson as any)
+          new mapboxgl.Popup({ closeButton: false }).setLngLat(centerFeature.geometry.coordinates).setHTML(description).addTo(map)
         })
 
         map.on('mouseenter', `${name}-fill`, () => {
