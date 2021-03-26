@@ -1,4 +1,5 @@
 export type Route = {
+  slug: string
   distance: number
   elevation: number
   geoJson: {

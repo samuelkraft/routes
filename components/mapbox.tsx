@@ -1,7 +1,7 @@
-import { useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp'
 import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker' // eslint-disable-line
-import center from '@turf/center'
+import { useRouter } from 'next/router'
 
 // Utils
 import { stringToColour } from 'utils'
@@ -23,7 +23,11 @@ const lat = 59.295889753922474
 const zoom = 12
 
 const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element => {
+  const [stateMap, setStateMap] = useState(null)
   const mapContainer = useRef()
+
+  const router = useRouter()
+  const queryRoute = router.query.route
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -46,42 +50,36 @@ const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element =>
       }),
     )
 
-    // Create a popup, but don't add it to the map yet.
-    const popup = new mapboxgl.Popup({
-      closeButton: false,
-      closeOnClick: false,
-    })
-
     // Add fullscreen control to the map
     map.addControl(new mapboxgl.FullscreenControl())
 
     map.on('load', () => {
       routes.forEach((route: Route) => {
-        const { name, links } = route.geoJson.features[0].properties
+        const { slug } = route
         const { coordinates } = route.geoJson.features[0].geometry
-        map.addSource(name, {
+        map.addSource(slug, {
           type: 'geojson',
           data: route.geoJson,
         })
         // Our path/route
         map.addLayer({
-          id: name,
+          id: slug,
           type: 'line',
-          source: name,
+          source: slug,
           layout: {
             'line-join': 'round',
             'line-cap': 'round',
           },
           paint: {
-            'line-color': stringToColour(name), // randomize a color based on the name
+            'line-color': stringToColour(slug), // randomize a color based on the slug
             'line-width': 4,
           },
         })
         // Add a fill layer as source for hover, or we lose our click target when inside the path
         map.addLayer({
-          id: `${name}-fill`,
+          id: `${slug}-fill`,
           type: 'fill',
-          source: name,
+          source: slug,
           paint: {
             'fill-color': 'transparent',
             'fill-outline-color': 'transparent',
@@ -90,7 +88,7 @@ const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element =>
 
         if (showStartAndEndCircles) {
           map.addLayer({
-            id: `${name}-start`,
+            id: `${slug}-start`,
             type: 'circle',
             source: {
               type: 'geojson',
@@ -113,7 +111,7 @@ const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element =>
           })
 
           map.addLayer({
-            id: `${name}-end`,
+            id: `${slug}-end`,
             type: 'circle',
             source: {
               type: 'geojson',
@@ -136,7 +134,7 @@ const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element =>
           })
         }
 
-        map.on('click', `${name}-fill`, () => {
+        map.on('click', `${slug}-fill`, () => {
           const coords = route.geoJson.features[0].geometry.coordinates
           const bounds = coords.reduce((b, coord) => {
             return b.extend(coord)
@@ -147,30 +145,66 @@ const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element =>
             padding: 20,
           })
 
-          // Open tooltop
-          const { href } = links[0]
-          const description = `<a href="${href}" target="_blank" rel="noreferrer noopener" style="outline: none; text-decoration: underline; position: relative; top: 3px;">${name}</p>`
-          const centerFeature = center(route.geoJson as any)
-          new mapboxgl.Popup({ closeButton: false }).setLngLat(centerFeature.geometry.coordinates).setHTML(description).addTo(map)
+          router.push({ query: { route: slug } })
         })
 
-        map.on('mouseenter', `${name}-fill`, () => {
+        map.on('mouseenter', `${slug}-fill`, () => {
           // Change the cursor style as a UI indicator.
           map.getCanvas().style.cursor = 'pointer'
           // Increase width of route path
-          map.setPaintProperty(name, 'line-width', 6)
+          map.setPaintProperty(slug, 'line-width', 6)
         })
 
-        map.on('mouseleave', `${name}-fill`, () => {
+        map.on('mouseleave', `${slug}-fill`, () => {
           map.getCanvas().style.cursor = ''
-          map.setPaintProperty(name, 'line-width', 4)
-          popup.remove()
+          map.setPaintProperty(slug, 'line-width', 4)
         })
       })
+
+      setStateMap(map)
     })
 
     return () => map.remove()
   }, [])
+
+  useEffect(() => {
+    if (queryRoute && stateMap) {
+      routes.forEach((route: Route) => {
+        const { slug } = route
+
+        if (slug === queryRoute) {
+          stateMap.setLayoutProperty(slug, 'visibility', 'visible')
+          stateMap.setLayoutProperty(`${slug}-fill`, 'visibility', 'visible')
+
+          const coords = route.geoJson.features[0].geometry.coordinates
+          const bounds = coords.reduce((b, coord) => {
+            return b.extend(coord)
+          }, new mapboxgl.LngLatBounds(coords[0], coords[0]))
+
+          // Fit map to bounds/route
+          stateMap.fitBounds(bounds, {
+            padding: 20,
+          })
+        } else {
+          stateMap.setLayoutProperty(slug, 'visibility', 'none')
+          stateMap.setLayoutProperty(`${slug}-fill`, 'visibility', 'none')
+        }
+      })
+    } else {
+      routes.forEach((route: Route) => {
+        const { slug } = route
+        if (stateMap) {
+          stateMap.setLayoutProperty(slug, 'visibility', 'visible')
+          stateMap.setLayoutProperty(`${slug}-fill`, 'visibility', 'visible')
+          stateMap.flyTo({
+            center: [lng, lat],
+            essential: true,
+            zoom,
+          })
+        }
+      })
+    }
+  }, [queryRoute, stateMap])
 
   return <div className="absolute inset-0" ref={mapContainer} />
 }
