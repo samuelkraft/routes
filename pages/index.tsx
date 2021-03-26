@@ -14,6 +14,8 @@ import Button from 'components/button'
 // Utils
 import { routeFilePaths, ROUTES_PATH } from 'utils/gpxutils'
 
+import { event } from 'lib/gtag'
+
 // Types
 import type { Routes } from 'types'
 
@@ -72,7 +74,12 @@ const Home = ({ routes }: RoutesProps) => {
                     <span className="-mb-px font-semibold">Back</span>
                   </a>
                 </Link>
-                <Button href={`/gpx/${queryRoute}.gpx`}>Download gpx</Button>
+                <Button
+                  href={`/gpx/${queryRoute}.gpx`}
+                  onClick={() => event({ category: 'gpx', action: 'download', label: queryRoute as string })}
+                >
+                  Download gpx
+                </Button>
               </nav>
               <header className="text-center py-14">
                 <h1 className="font-bold text-3xl py-3 -mx-5 px-5 -top-5 mb-0 text-forest-darkest text-center">
