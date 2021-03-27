@@ -8,11 +8,16 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 
+// Components
 import Route, { Stat } from 'components/route'
 import MapBox from 'components/mapbox'
 import Button from 'components/button'
+
 // Utils
 import { routeFilePaths, ROUTES_PATH } from 'utils/gpxutils'
+
+// Data
+import { meta } from 'data/meta'
 
 import { event } from 'lib/gtag'
 
@@ -67,17 +72,35 @@ const Home = ({ routes }: RoutesProps) => {
             <>
               <nav className="sticky py-3 border-b border-gray-200 flex justify-between px-5 items-center bg-blur sticky -top-5 -mx-5">
                 <Link href="/">
-                  <a className="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="w-[20px] mr-1">
+                  <a>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      className="w-[20px] mr-1 -mt-0.5 inline-block"
+                    >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
-                    <span className="-mb-px font-semibold">Back</span>
+                    <span className="font-semibold inline-block">Routes</span>
                   </a>
                 </Link>
                 <Button
                   href={`/gpx/${queryRoute}.gpx`}
                   onClick={() => event({ category: 'gpx', action: 'download', label: queryRoute as string })}
                 >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    className="w-[16px] inline-block mr-1 -mt-px"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
                   Download gpx
                 </Button>
               </nav>
@@ -85,26 +108,28 @@ const Home = ({ routes }: RoutesProps) => {
                 <h1 className="font-bold text-3xl py-3 -mx-5 px-5 -top-5 mb-0 text-forest-darkest text-center">
                   {currentRoute.geoJson.features[0].properties.name}
                 </h1>
-                <div className="flex text-gray-400 items-center justify-center">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="w-[14px] mr-1.5 -mt-1"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <span className="uppercase text-xs font-semibold tracking-wide">Stockholm</span>
-                </div>
+                {currentRoute.location && (
+                  <div className="flex text-gray-400 items-center justify-center">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      className="w-[14px] mr-1.5 -mt-1"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span className="uppercase text-xs font-semibold tracking-wide">{currentRoute.location}</span>
+                  </div>
+                )}
               </header>
-              <ul className="grid grid-rows-2 grid-cols-2 gap-2 mb-4">
+              <ul className="grid grid-rows-2 grid-cols-2 gap-2 mb-6">
                 <li className="border p-2 border-gray-200 rounded flex justify-center">
                   <Stat type="Distance" value={`${Math.round(currentRoute.distance * 10) / 10} km`} centered />
                 </li>
@@ -114,9 +139,26 @@ const Home = ({ routes }: RoutesProps) => {
                 <li className="border p-2 border-gray-200 rounded flex justify-center">
                   <Stat type="Stifa" value={Math.round(currentRoute.elevation / currentRoute.distance)} centered />
                 </li>
+                {currentRoute.rating && (
+                  <li className="border p-2 border-gray-200 rounded flex justify-center">
+                    <Stat
+                      type="Rating"
+                      value={
+                        <>
+                          {currentRoute.rating}
+                          <span className="text-gray-400 text-xs">/5</span>
+                        </>
+                      }
+                      centered
+                    />
+                  </li>
+                )}
               </ul>
+
+              {currentRoute.description && <p className="mb-3">{currentRoute.description}</p>}
+
               <p>
-                Read more on{' '}
+                See route on{' '}
                 <a
                   className="text-forest"
                   href={currentRoute.geoJson.features[0].properties.links[0].href}
@@ -156,7 +198,17 @@ export const getStaticProps: GetStaticProps = async () => {
       if (elevationDifference > 0) elevation += elevationDifference
     })
 
-    return { distance, elevation, geoJson, slug }
+    const metadata = meta[slug]
+
+    return {
+      distance,
+      elevation,
+      geoJson,
+      slug,
+      description: metadata?.description || null,
+      rating: metadata?.rating || null,
+      location: metadata?.location || null,
+    }
   })
 
   return {

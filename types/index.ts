@@ -14,6 +14,9 @@ export type Route = {
       }
     }>
   }
+  rating?: number
+  description?: string
+  location?: string
 }
 
 export type Routes = Array<Route>
