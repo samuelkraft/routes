@@ -3,9 +3,6 @@ import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp'
 import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker' // eslint-disable-line
 import { useRouter } from 'next/router'
 
-// Utils
-import { stringToColour } from 'utils'
-
 import type { Route, Routes } from 'types'
 
 mapboxgl.workerClass = MapboxWorker
@@ -13,7 +10,6 @@ mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
 
 type MapBoxProps = {
   routes: Routes
-  showStartAndEndCircles?: boolean
 }
 
 // Initial map
@@ -22,7 +18,7 @@ const lng = 18.182809464168194
 const lat = 59.295889753922474
 const zoom = 12
 
-const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element => {
+const MapBox = ({ routes }: MapBoxProps): JSX.Element => {
   const [stateMap, setStateMap] = useState(null)
   const mapContainer = useRef()
 
@@ -55,7 +51,7 @@ const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element =>
 
     map.on('load', () => {
       routes.forEach((route: Route) => {
-        const { slug } = route
+        const { slug, color } = route
         const { coordinates } = route.geoJson.features[0].geometry
         map.addSource(slug, {
           type: 'geojson',
@@ -71,7 +67,7 @@ const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element =>
             'line-cap': 'round',
           },
           paint: {
-            'line-color': stringToColour(slug), // randomize a color based on the slug
+            'line-color': color,
             'line-width': 4,
           },
         })
@@ -86,53 +82,51 @@ const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element =>
           },
         })
 
-        if (showStartAndEndCircles) {
-          map.addLayer({
-            id: `${slug}-start`,
-            type: 'circle',
-            source: {
-              type: 'geojson',
-              data: {
-                type: 'Feature',
-                properties: {
-                  description: 'Activity Start',
-                },
-                geometry: {
-                  type: 'Point',
-                  coordinates: coordinates[0],
-                },
+        map.addLayer({
+          id: `${slug}-start`,
+          type: 'circle',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'Feature',
+              properties: {
+                description: 'Activity Start',
+              },
+              geometry: {
+                type: 'Point',
+                coordinates: coordinates[0],
               },
             },
-            paint: {
-              'circle-color': '#87CF3E',
-              'circle-radius': 5,
-              'circle-opacity': 1,
-            },
-          })
+          },
+          paint: {
+            'circle-color': '#87CF3E',
+            'circle-radius': 5,
+            'circle-opacity': 1,
+          },
+        })
 
-          map.addLayer({
-            id: `${slug}-end`,
-            type: 'circle',
-            source: {
-              type: 'geojson',
-              data: {
-                type: 'Feature',
-                properties: {
-                  description: 'Activitiy End',
-                },
-                geometry: {
-                  type: 'Point',
-                  coordinates: coordinates.pop(),
-                },
+        map.addLayer({
+          id: `${slug}-end`,
+          type: 'circle',
+          source: {
+            type: 'geojson',
+            data: {
+              type: 'Feature',
+              properties: {
+                description: 'Activitiy End',
+              },
+              geometry: {
+                type: 'Point',
+                coordinates: coordinates.pop(),
               },
             },
-            paint: {
-              'circle-color': 'red',
-              'circle-radius': 5,
-              'circle-opacity': 1,
-            },
-          })
-        }
+          },
+          paint: {
+            'circle-color': 'red',
+            'circle-radius': 5,
+            'circle-opacity': 1,
+          },
+        })
 
         map.on('click', `${slug}-fill`, () => {
           const coords = route.geoJson.features[0].geometry.coordinates
@@ -175,6 +169,8 @@ const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element =>
         if (slug === queryRoute) {
           stateMap.setLayoutProperty(slug, 'visibility', 'visible')
           stateMap.setLayoutProperty(`${slug}-fill`, 'visibility', 'visible')
+          stateMap.setLayoutProperty(`${slug}-end`, 'visibility', 'visible')
+          stateMap.setLayoutProperty(`${slug}-start`, 'visibility', 'visible')
 
           const coords = route.geoJson.features[0].geometry.coordinates
           const bounds = coords.reduce((b, coord) => {
@@ -188,6 +184,8 @@ const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element =>
         } else {
           stateMap.setLayoutProperty(slug, 'visibility', 'none')
           stateMap.setLayoutProperty(`${slug}-fill`, 'visibility', 'none')
+          stateMap.setLayoutProperty(`${slug}-end`, 'visibility', 'none')
+          stateMap.setLayoutProperty(`${slug}-start`, 'visibility', 'none')
         }
       })
     } else {
@@ -196,6 +194,8 @@ const MapBox = ({ routes, showStartAndEndCircles }: MapBoxProps): JSX.Element =>
         if (stateMap) {
           stateMap.setLayoutProperty(slug, 'visibility', 'visible')
           stateMap.setLayoutProperty(`${slug}-fill`, 'visibility', 'visible')
+          stateMap.setLayoutProperty(`${slug}-end`, 'visibility', 'none')
+          stateMap.setLayoutProperty(`${slug}-start`, 'visibility', 'none')
           stateMap.flyTo({
             center: [lng, lat],
             essential: true,

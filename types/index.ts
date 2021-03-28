@@ -17,6 +17,7 @@ export type Route = {
   rating?: number
   description?: string
   location?: string
+  color: string
 }
 
 export type Routes = Array<Route>

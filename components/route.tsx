@@ -10,13 +10,16 @@ export const Stat = ({ type, value, centered }: { type: string; value: string | 
   </li>
 )
 
-const Route = ({ geoJson, distance, elevation, slug }: RouteProps): JSX.Element => {
+const Route = ({ geoJson, distance, elevation, slug, color }: RouteProps): JSX.Element => {
   const { name } = geoJson.features[0].properties
   return (
     <Link href={{ query: { route: slug } }} key={name}>
       <a>
         <article className="border border-gray-200 rounded mb-5 p-4 relative hover:border-gray-300 transition">
-          <p className="font-semibold text-xl mb-1.5 text-forest-darkest">{name}</p>
+          <p className="font-semibold text-xl mb-1.5 text-forest-darkest">
+            <span style={{ backgroundColor: color, content: '' }} className="inline-block w-[14px] h-[14px] rounded-full mr-3" />
+            {name}
+          </p>
           <ol className="flex">
             <Stat type="Distance" value={`${Math.round(distance * 10) / 10} km`} />
             <Stat type="Elevation" value={`${Math.round(elevation)} m`} />
