@@ -18,6 +18,7 @@
     "next": "10.0.5",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-vis": "^1.11.7",
     "worker-loader": "^3.0.8",
     "xmldom": "^0.5.0"
   },

@@ -4,6 +4,7 @@ import Link from 'next/link'
 // Components
 import Button from 'components/button'
 import { Stat } from 'components/route'
+import Chart from 'components/chart'
 
 // Types
 import type { Route } from 'types'
@@ -24,7 +25,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
     >
       {route && (
         <>
-          <nav className="sticky py-3 border-b border-gray-200 flex justify-between px-5 items-center bg-blur sticky -top-5 -mx-5">
+          <nav className="sticky py-3 border-b border-gray-200 flex justify-between px-5 items-center bg-blur sticky -top-5 -mx-5 z-10">
             <Link href="/">
               <a>
                 <svg
@@ -78,6 +79,9 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
               </div>
             )}
           </header>
+          <div className="border p-2 border-gray-200 rounded mb-2">
+            <Chart coordinates={route.geoJson.features[0].geometry.coordinates} />
+          </div>
           <ul className="grid grid-rows-2 grid-cols-2 gap-2 mb-6">
             <li className="border p-2 border-gray-200 rounded flex justify-center">
               <Stat type="Distance" value={`${Math.round(route.distance * 10) / 10} km`} centered />
