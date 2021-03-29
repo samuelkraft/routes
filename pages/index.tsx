@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react'
 import { GetStaticProps } from 'next'
 import toGeoJson from '@mapbox/togeojson'
 import fs from 'fs'
@@ -27,13 +28,24 @@ type RoutesProps = {
 }
 
 const Home = ({ routes }: RoutesProps) => {
+  const aside = useRef<HTMLElement>()
   const router = useRouter()
   const queryRoute = router.query.route
   const currentRoute = routes.find(route => route.slug === queryRoute)
 
+  useEffect(() => {
+    const sidebar = aside.current
+    if (sidebar) {
+      sidebar.scrollTop = 0
+    }
+  }, [queryRoute])
+
   return (
     <main className="bg-[#E6E4E0] h-screen w-screen sm:overflow-hidden">
-      <aside className="w-full sm:w-[430px] bg-white min-h-screen overflow-y-scroll overflow-x-hidden sm:absolute top-0 bottom-0 p-5">
+      <aside
+        className="w-full sm:w-[430px] bg-white min-h-screen overflow-y-scroll overflow-x-hidden sm:absolute top-0 bottom-0 p-5"
+        ref={aside}
+      >
         <motion.div
           animate={
             queryRoute
@@ -46,7 +58,7 @@ const Home = ({ routes }: RoutesProps) => {
                 }
               : { x: 0, scale: 1, display: 'block' }
           }
-          transition={{ ease: 'easeOut', duration: 0.3 }}
+          transition={{ ease: 'easeOut', duration: 0.2 }}
         >
           <nav className="flex justify-end">
             <Button onClick={() => window.open('mailto:samuelkraft@me.com?subject=🏃‍♀️ I want to add a route to Trail Runner!')}>
