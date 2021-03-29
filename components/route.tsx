@@ -10,7 +10,7 @@ export const Stat = ({ type, value, centered }: { type: string; value: string | 
   </li>
 )
 
-const Route = ({ geoJson, distance, elevation, slug, color }: RouteProps): JSX.Element => {
+const Route = ({ route: { geoJson, distance, elevation, slug, color } }: { route: RouteProps }): JSX.Element => {
   const { name } = geoJson.features[0].properties
   return (
     <Link href={{ query: { route: slug } }} key={name}>

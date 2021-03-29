@@ -33,8 +33,21 @@ const Home = ({ routes }: RoutesProps) => {
 
   return (
     <main className="bg-[#E6E4E0] h-screen w-screen overflow-hidden">
-      <aside className="w-full sm:w-[430px] bg-white min-h-screen overflow-y-auto overflow-x-hidden sm:absolute top-0 bottom-0 p-5">
-        <motion.div animate={queryRoute ? { x: '-30%', scale: 0.95 } : { x: 0, scale: 1 }} transition={{ ease: 'easeOut', duration: 0.3 }}>
+      <aside className="w-full sm:w-[430px] bg-white min-h-screen overflow-y-scroll overflow-x-hidden sm:absolute top-0 bottom-0 p-5">
+        <motion.div
+          animate={
+            queryRoute
+              ? {
+                  x: '-30%',
+                  scale: 0.95,
+                  transitionEnd: {
+                    display: 'none',
+                  },
+                }
+              : { x: 0, scale: 1, display: 'block' }
+          }
+          transition={{ ease: 'easeOut', duration: 0.3 }}
+        >
           <nav className="flex justify-end">
             <Button onClick={() => window.open('mailto:samuelkraft@me.com?subject=🏃‍♀️ I want to add a route to Trail Runner!')}>
               Add Route
@@ -48,8 +61,12 @@ const Home = ({ routes }: RoutesProps) => {
             </p>
           </header>
           <section>
-            <h1 className="font-bold text-2xl py-3 sticky -mx-5 px-5 -top-5 bg-blur text-forest-darkest">All routes</h1>
-            <ol>{routes.map(Route)}</ol>
+            <h1 className="font-bold text-2xl py-3 sticky -mx-5 px-5 -top-5 bg-blur text-forest-darkest z-10">All routes</h1>
+            <ol>
+              {routes.map(route => (
+                <Route key={route.slug} route={route} />
+              ))}
+            </ol>
           </section>
           <footer className="text-center text-gray-500">
             A project by{' '}
@@ -101,7 +118,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      routes,
+      routes: routes.sort((a, b) => b.rating - a.rating),
     },
   }
 }
