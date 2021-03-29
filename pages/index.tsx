@@ -32,7 +32,7 @@ const Home = ({ routes }: RoutesProps) => {
   const currentRoute = routes.find(route => route.slug === queryRoute)
 
   return (
-    <main className="bg-[#E6E4E0] h-screen w-screen overflow-hidden">
+    <main className="bg-[#E6E4E0] h-screen w-screen sm:overflow-hidden">
       <aside className="w-full sm:w-[430px] bg-white min-h-screen overflow-y-scroll overflow-x-hidden sm:absolute top-0 bottom-0 p-5">
         <motion.div
           animate={
