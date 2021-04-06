@@ -17,11 +17,23 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
       router.events.off('routeChangeComplete', handleRouteChange)
     }
   }, [router.events])
+
+  const title = 'Trail Routes: Curated running & hiking routes'
+  const description = 'Explore curated trails in Sweden for hiking & running.'
+
   return (
     <>
       <Head>
-        <title>Trail Routes</title>
-        <meta name="description" content="Explore curated trails in Sweden for hiking &amp; running." />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:creator" content="@samuelkraft" />
+
+        <meta property="og:url" content="https://routes.samuelkraft.com" />
+        <meta property="og:image" content="https://routes.samuelkraft.com/og.png" />
+        <meta property="og:site_name" content="Trail Routes" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <Component {...pageProps} />
