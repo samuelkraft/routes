@@ -3,22 +3,20 @@ const colors = require('tailwindcss/colors') // eslint-disable-line
 export const meta = {
   nyckelviken: {
     description:
-      'En spännande och lite krävande vandringsled som till stora delar följer reservatets yttre gräns. Höjdskillnader, berg, sten, rötter men du belönas med magnifika utkiksplatser, dramatiska raviner, hav, gamla orörda bestånd av olika trädslag, bortglömda gamla bergsvägar m.m. Uppmärkt åt båda hållen.',
+      'Probably my all-time favorite local route! A demanding 5k trail around the outer edges of Nyckelviken nature reserve. Lots of elevation and amazing views. Clearly marked with blue signs. A good start is the first parking lot next to the outdoor gym.',
     rating: 5,
     location: 'Nacka · Stockholm',
     color: colors.blue[500],
   },
-  hellasgarden12: {
-    rating: 3,
-    location: 'Nacka · Stockholm',
-    color: colors.green[500],
-  },
   hellasgarden_gula: {
+    description: 'A fairly complex and fun route going around Källtorpssjön clearly marked with yellow signs.',
     rating: 5,
     location: 'Nacka · Stockholm',
     color: colors.yellow[300],
   },
   langsjon_jarlasjon: {
+    description:
+      'This route joins up multiple smaller fairly unknown paths resulting in a nice 5k with two fun climbs; the first one up the hill next to Långsjön and the other one at Fannydalsplatån.',
     rating: 4,
     location: 'Nacka · Stockholm',
     color: colors.yellow[400],
@@ -29,6 +27,8 @@ export const meta = {
     color: colors.pink[500],
   },
   kranglan_trails: {
+    description:
+      'Short and sweet route around the estern part of Järlasjön that takes you along the water until starting a massive climb up "Nacke π". Please note that this is a very steep mountainbike trail so watch out for cyclists.',
     rating: 4,
     location: 'Nacka · Stockholm',
     color: colors.purple[500],
