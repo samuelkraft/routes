@@ -54,4 +54,10 @@ export const meta = {
     location: 'Velamsund',
     color: colors.yellow[400],
   },
+  jarvso_klack: {
+    description: 'Järvsö-klack is a 390m heigh montain close to Järvsö. Perfect if you want steep climbs, or train on downhills.',
+    rating: 4,
+    location: 'Järvsö',
+    color: colors.pink[400],
+  },
 }
