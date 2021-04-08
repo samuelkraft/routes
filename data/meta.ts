@@ -21,10 +21,10 @@ export const meta = {
     location: 'Nacka · Stockholm',
     color: colors.yellow[400],
   },
-  solsidan_norra: {
+  grona_atrail: {
     rating: 4,
     location: 'Nackareservatet · Stockholm',
-    color: colors.pink[500],
+    color: colors.green[500],
   },
   kranglan_trails: {
     description:
@@ -39,5 +39,19 @@ export const meta = {
     rating: 4,
     location: 'Boo - Värmdö',
     color: colors.red[500],
+  },
+  kvarnsjon: {
+    description:
+      'A nice trail around the lake Kvarnsjön marked with yellow signs. The fun parts are in the woods east of the lake, but the views from the western paved parts are worth it. This route can be kombined with the path "Knuts Hav" for a longer route, follow the orange signs.',
+    rating: 3,
+    location: 'Värmdö',
+    color: colors.yellow[400],
+  },
+  getstigen: {
+    description:
+      'Short and fun trail with pretty views of Velamsundsviken. It can be a bit hard to find, pass the boat club and continue on the dock until the trail starts.',
+    rating: 4,
+    location: 'Velamsund',
+    color: colors.yellow[400],
   },
 }

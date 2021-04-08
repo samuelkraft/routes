@@ -14,9 +14,9 @@ type MapBoxProps = {
 
 // Initial map
 // TODO: Fit to bounds of all routes
-const lng = 18.182809464168194
-const lat = 59.295889753922474
-const zoom = 12
+const lng = 18.244388870303833
+const lat = 59.30269877903985
+const zoom = 11
 
 const MapBox = ({ routes }: MapBoxProps): JSX.Element => {
   const [stateMap, setStateMap] = useState(null)
