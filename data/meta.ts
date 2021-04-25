@@ -60,4 +60,14 @@ export const meta = {
     location: 'Järvsö',
     color: colors.pink[400],
   },
+  trollsjon: {
+    rating: 4,
+    location: 'Boo · Stockholm',
+    color: colors.pink[400],
+  },
+  roda_sparet_velamsund: {
+    rating: 5,
+    location: 'Velamsund',
+    color: colors.red[400],
+  },
 }
