@@ -18,6 +18,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
     return null
   }
   const { name } = route.geoJson.features[0].properties
+  const seoTitle = `${name} | Trail running & hiking route`
 
   return (
     <motion.div
@@ -27,11 +28,11 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
       transition={{ ease: 'easeOut', duration: 0.2 }}
     >
       <NextSeo
-        title={`${name} | Trail running & hiking route`}
+        title={seoTitle}
         description={route.description}
         openGraph={{
           url: `https://routes.samuekraft.com/?route=${route.slug}`,
-          title: name,
+          title: seoTitle,
           description: route.description,
           images: [
             {
