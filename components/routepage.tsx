@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import { NextSeo } from 'next-seo'
 
 // Components
 import Button from 'components/button'
@@ -16,6 +17,8 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
   if (!route) {
     return null
   }
+  const { name } = route.geoJson.features[0].properties
+
   return (
     <motion.div
       className="w-full absolute top-0 min-h-screen bg-white -ml-5 -mr-5 px-5"
@@ -23,9 +26,25 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
       animate={{ x: 0 }}
       transition={{ ease: 'easeOut', duration: 0.2 }}
     >
+      <NextSeo
+        title={`${name} | Trail running & hiking route`}
+        description={route.description}
+        openGraph={{
+          url: `https://routes.samuekraft.com/?route=${route.slug}`,
+          title: name,
+          description: route.description,
+          images: [
+            {
+              url: `https://routes.samuelkraft.com/og/${route.slug}.jpg`,
+              width: 1012,
+              height: 516,
+            },
+          ],
+        }}
+      />
       {route && (
         <>
-          <nav className="sticky py-3 border-b border-gray-200 flex justify-between px-5 items-center bg-blur sticky -top-5 -mx-5 z-10">
+          <nav className="py-3 border-b border-gray-200 flex justify-between px-5 items-center bg-blur sticky -top-5 -mx-5 z-10">
             <Link href="/">
               <a>
                 <svg
@@ -55,9 +74,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
             </Button>
           </nav>
           <header className="text-center py-14">
-            <h1 className="font-bold text-3xl py-3 -mx-5 px-5 -top-5 mb-0 text-forest-darkest text-center">
-              {route.geoJson.features[0].properties.name}
-            </h1>
+            <h1 className="font-bold text-3xl py-3 -mx-5 px-5 -top-5 mb-0 text-forest-darkest text-center">{name}</h1>
             {route.location && (
               <div className="flex text-gray-400 items-center justify-center">
                 <svg

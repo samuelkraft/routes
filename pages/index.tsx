@@ -1,11 +1,5 @@
 import { useRef, useEffect } from 'react'
-import { GetStaticProps } from 'next'
-import toGeoJson from '@mapbox/togeojson'
-import fs from 'fs'
-import { DOMParser } from 'xmldom'
-import path from 'path'
-import length from '@turf/length'
-import { useRouter } from 'next/router'
+import { GetServerSideProps } from 'next'
 import { motion } from 'framer-motion'
 
 // Components
@@ -13,24 +7,19 @@ import Route from 'components/route'
 import MapBox from 'components/mapbox'
 import Button from 'components/button'
 import RoutePage from 'components/routepage'
-
-// Utils
-import { routeFilePaths, ROUTES_PATH } from 'utils/gpxutils'
-
-// Data
-import { meta } from 'data/meta'
-
 // Types
 import type { Routes } from 'types'
 
+// Data
+const gpxUtils = require('../utils/gpxutils.ts')
+
 type RoutesProps = {
   routes: Routes
+  queryRoute?: string
 }
 
-const Home = ({ routes }: RoutesProps) => {
+const Home = ({ routes, queryRoute }: RoutesProps) => {
   const aside = useRef<HTMLElement>()
-  const router = useRouter()
-  const queryRoute = router.query.route
   const currentRoute = routes.find(route => route.slug === queryRoute)
 
   useEffect(() => {
@@ -96,41 +85,11 @@ const Home = ({ routes }: RoutesProps) => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const routes = routeFilePaths.map(filePath => {
-    const source = new DOMParser().parseFromString(fs.readFileSync(path.join(ROUTES_PATH, filePath), 'utf8'))
-    const geoJson = toGeoJson.gpx(source)
-    const slug = filePath.replace('.gpx', '')
-
-    // Calculate distance using geoJson
-    const distance = length(geoJson)
-
-    // Calculate elevation gain using gpx data
-    const { coordinates } = geoJson.features[0].geometry
-    let elevation = 0
-    coordinates.forEach((coord, index) => {
-      if (index === coordinates.length - 1) return // stop 1 point early since comparison requires 2 points
-      const elevationDifference = coordinates[index + 1][2] - coordinates[index][2]
-      if (elevationDifference > 0) elevation += elevationDifference
-    })
-
-    const metadata = meta[slug]
-
-    return {
-      distance,
-      elevation,
-      geoJson,
-      slug,
-      color: metadata?.color || 'red',
-      description: metadata?.description || null,
-      rating: metadata?.rating || null,
-      location: metadata?.location || null,
-    }
-  })
-
+export const getServerSideProps: GetServerSideProps = async context => {
   return {
     props: {
-      routes: routes.sort((a, b) => b.rating - a.rating),
+      routes: gpxUtils.routes.sort((a, b) => b.rating - a.rating),
+      queryRoute: context.query.route || null,
     },
   }
 }
