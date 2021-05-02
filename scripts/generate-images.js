@@ -2,10 +2,10 @@
 const fs = require('fs')
 const fetch = require('node-fetch')
 const https = require('https')
+const path = require('path')
 const gp = require('geojson-precision')
 const simplify = require('simplify-geojson')
 const polyline = require('@mapbox/polyline')
-
 const { routes } = require('../utils/gpxutils.js')
 
 var download = function (url, dest, cb) {
@@ -27,7 +27,7 @@ async function generate() {
         '#',
         '',
       )}-1(${poly})/auto/1012x516?access_token=${process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN}`
-      download(image, `./public/og/${route.slug}.jpg`)
+      download(image, path.join(process.cwd(), `./public/og/${route.slug}.jpg`))
     }),
   )
 }
