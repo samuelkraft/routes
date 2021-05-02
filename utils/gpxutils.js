@@ -3,7 +3,7 @@ const path = require('path')
 const toGeoJson = require('@mapbox/togeojson')
 const turflength = require('@turf/length').default
 const xmldom = require('xmldom')
-const met = require('../data/meta.ts')
+const met = require('../data/meta.js')
 
 const ROUTES_PATH = path.join(process.cwd(), 'public', 'gpx')
 

@@ -11,7 +11,7 @@ import RoutePage from 'components/routepage'
 import type { Routes } from 'types'
 
 // Data
-const gpxUtils = require('../utils/gpxutils.ts')
+const gpxUtils = require('../utils/gpxutils.js')
 
 type RoutesProps = {
   routes: Routes

@@ -6,7 +6,7 @@ const gp = require('geojson-precision')
 const simplify = require('simplify-geojson')
 const polyline = require('@mapbox/polyline')
 
-const { routes } = require('../utils/gpxutils.ts')
+const { routes } = require('../utils/gpxutils.js')
 
 var download = function (url, dest, cb) {
   const file = fs.createWriteStream(dest)
