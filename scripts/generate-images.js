@@ -22,7 +22,9 @@ async function generate() {
   await Promise.all(
     routes.map(async route => {
       const geoJson = simplify(gp(route.geoJson, 4), 0.0001)
-      const poly = polyline.fromGeoJSON(geoJson.features[0].geometry).replaceAll('?', '%3F')
+      const poly0 = polyline.fromGeoJSON(geoJson.features[0].geometry)
+      console.log('poly0', poly0, geoJson)
+      const poly = poly0.replaceAll('?', '%3F')
       const image = `https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/static/path-5+${route.color.replace(
         '#',
         '',
