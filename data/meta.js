@@ -1,6 +1,6 @@
 const colors = require('tailwindcss/colors') // eslint-disable-line
 
-export const meta = {
+const meta = {
   nyckelviken: {
     description:
       'Probably my all-time favorite local route! A demanding 5k trail around the outer edges of Nyckelviken nature reserve. Lots of elevation and amazing views. Clearly marked with blue signs. A good start is the first parking lot next to the outdoor gym.',
@@ -71,3 +71,5 @@ export const meta = {
     color: colors.red[400],
   },
 }
+
+module.exports = { meta }
