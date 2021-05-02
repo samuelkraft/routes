@@ -36,7 +36,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
           description: route.description,
           images: [
             {
-              url: `https://routes.samuelkraft.com/og/${route.slug}.jpg`,
+              url: `https://routes.samuelkraft.com/og/${route.slug}.png`,
               width: 1012,
               height: 516,
             },
