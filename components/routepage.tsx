@@ -125,7 +125,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
             )}
           </header>
           <div className="p-2 mb-2 border border-gray-200 rounded">
-            <Chart coordinates={route.geoJson.features[0].geometry.coordinates} />
+            <Chart coordinates={route.gpxGeoJson.features[0].geometry.coordinates} />
           </div>
           <ul className="grid grid-cols-2 grid-rows-2 gap-2 mb-6">
             <li className="flex justify-center p-2 border border-gray-200 rounded">
