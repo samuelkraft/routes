@@ -3,8 +3,18 @@ import Link from 'next/link'
 import cn from 'clsx'
 import type { Route as RouteProps } from 'types'
 
-export const Stat = ({ type, value, centered }: { type: string; value: string | number | ReactNode; centered?: boolean }) => (
-  <li className={cn(centered ? 'text-center' : 'mr-5')}>
+export const Stat = ({
+  type,
+  value,
+  centered,
+  className,
+}: {
+  type: string
+  value: string | number | ReactNode
+  centered?: boolean
+  className?: string
+}) => (
+  <li className={cn(centered ? 'text-center' : 'mr-5', className)}>
     <span className="block text-xs text-gray-400 uppercase">{type}</span>
     <strong className="text-xl font-normal text-forest-darkest">{value}</strong>
   </li>

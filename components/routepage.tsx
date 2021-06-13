@@ -21,6 +21,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
   const { name } = route.geoJson.features[0].properties
   const seoTitle = `${name} | ${route.swimrun ? 'Swimrun route' : 'Trail running & hiking route'}`
   const link = route.geoJson.features[0].properties?.links?.[0]?.href
+  const statBoxClassName = 'justify-center p-2 border border-gray-200 rounded'
 
   return (
     <motion.div
@@ -128,28 +129,21 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
             <Chart coordinates={route.gpxGeoJson.features[0].geometry.coordinates} />
           </div>
           <ul className="grid grid-cols-2 grid-rows-2 gap-2 mb-6">
-            <li className="flex justify-center p-2 border border-gray-200 rounded">
-              <Stat type="Distance" value={`${Math.round(route.distance * 10) / 10} km`} centered />
-            </li>
-            <li className="flex justify-center p-2 border border-gray-200 rounded">
-              <Stat type="Elevation" value={`${Math.round(route.elevation)} m`} centered />
-            </li>
-            <li className="flex justify-center p-2 border border-gray-200 rounded">
-              <Stat type="Stifa" value={Math.round(route.elevation / route.distance)} centered />
-            </li>
+            <Stat type="Distance" value={`${Math.round(route.distance * 10) / 10} km`} centered className={statBoxClassName} />
+            <Stat type="Elevation" value={`${Math.round(route.elevation)} m`} centered className={statBoxClassName} />
+            <Stat type="Stifa" value={Math.round(route.elevation / route.distance)} centered className={statBoxClassName} />
             {route.rating && (
-              <li className="flex justify-center p-2 border border-gray-200 rounded">
-                <Stat
-                  type="Rating"
-                  value={
-                    <>
-                      {route.rating}
-                      <span className="text-xs text-gray-400">/5</span>
-                    </>
-                  }
-                  centered
-                />
-              </li>
+              <Stat
+                type="Rating"
+                value={
+                  <>
+                    {route.rating}
+                    <span className="text-xs text-gray-400">/5</span>
+                  </>
+                }
+                centered
+                className={statBoxClassName}
+              />
             )}
           </ul>
 
