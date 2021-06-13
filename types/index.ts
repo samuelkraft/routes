@@ -18,6 +18,7 @@ export type Route = {
   description?: string
   location?: string
   color: string
+  swimrun?: boolean
 }
 
 export type Routes = Array<Route>

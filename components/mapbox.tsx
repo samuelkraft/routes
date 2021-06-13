@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp'
 import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker' // eslint-disable-line
 import { useRouter } from 'next/router'
-
+import extent from 'turf-extent'
 import type { Route, Routes } from 'types'
 
 mapboxgl.workerClass = MapboxWorker
@@ -14,8 +14,8 @@ type MapBoxProps = {
 
 // Initial map
 // TODO: Fit to bounds of all routes
-const lng = 18.244388870303833
-const lat = 59.30269877903985
+const lng = 18.274050337530213
+const lat = 59.31711298954641
 const zoom = 11
 
 const MapBox = ({ routes }: MapBoxProps): JSX.Element => {
@@ -51,8 +51,18 @@ const MapBox = ({ routes }: MapBoxProps): JSX.Element => {
 
     map.on('load', () => {
       routes.forEach((route: Route) => {
-        const { slug, color } = route
-        const { coordinates } = route.geoJson.features[0].geometry
+        const {
+          slug,
+          color,
+          geoJson: { features },
+        } = route
+        const { coordinates: startCoordinates } = features[0].geometry
+        const { coordinates: endCoordinates } = features[features.length - 1].geometry
+        const isCollection = features.length > 1
+        const bbox = extent(route.geoJson)
+
+        const dash = isCollection && queryRoute ? { 'line-dasharray': ['get', 'dash'] } : {}
+
         map.addSource(slug, {
           type: 'geojson',
           data: route.geoJson,
@@ -69,6 +79,7 @@ const MapBox = ({ routes }: MapBoxProps): JSX.Element => {
           paint: {
             'line-color': color,
             'line-width': 4,
+            ...dash,
           },
         })
         // Add a fill layer as source for hover, or we lose our click target when inside the path
@@ -94,7 +105,7 @@ const MapBox = ({ routes }: MapBoxProps): JSX.Element => {
               },
               geometry: {
                 type: 'Point',
-                coordinates: coordinates[0],
+                coordinates: startCoordinates[0],
               },
             },
           },
@@ -117,7 +128,7 @@ const MapBox = ({ routes }: MapBoxProps): JSX.Element => {
               },
               geometry: {
                 type: 'Point',
-                coordinates: coordinates.pop(),
+                coordinates: endCoordinates.pop(),
               },
             },
           },
@@ -129,13 +140,8 @@ const MapBox = ({ routes }: MapBoxProps): JSX.Element => {
         })
 
         map.on('click', `${slug}-fill`, () => {
-          const coords = route.geoJson.features[0].geometry.coordinates
-          const bounds = coords.reduce((b, coord) => {
-            return b.extend(coord)
-          }, new mapboxgl.LngLatBounds(coords[0], coords[0]))
-
           // Fit map to bounds/route
-          map.fitBounds(bounds, {
+          map.fitBounds(bbox, {
             padding: 20,
           })
 
@@ -164,21 +170,24 @@ const MapBox = ({ routes }: MapBoxProps): JSX.Element => {
   useEffect(() => {
     if (queryRoute && stateMap) {
       routes.forEach((route: Route) => {
-        const { slug } = route
+        const {
+          slug,
+          geoJson: { features },
+        } = route
+        const isCollection = features.length > 1
 
         if (slug === queryRoute) {
           stateMap.setLayoutProperty(slug, 'visibility', 'visible')
           stateMap.setLayoutProperty(`${slug}-fill`, 'visibility', 'visible')
           stateMap.setLayoutProperty(`${slug}-end`, 'visibility', 'visible')
           stateMap.setLayoutProperty(`${slug}-start`, 'visibility', 'visible')
+          if (isCollection) {
+            stateMap.setPaintProperty(slug, 'line-dasharray', ['get', 'dash'])
+          }
 
-          const coords = route.geoJson.features[0].geometry.coordinates
-          const bounds = coords.reduce((b, coord) => {
-            return b.extend(coord)
-          }, new mapboxgl.LngLatBounds(coords[0], coords[0]))
-
+          const bbox = extent(route.geoJson)
           // Fit map to bounds/route
-          stateMap.fitBounds(bounds, {
+          stateMap.fitBounds(bbox, {
             padding: 20,
           })
         } else {
@@ -186,16 +195,26 @@ const MapBox = ({ routes }: MapBoxProps): JSX.Element => {
           stateMap.setLayoutProperty(`${slug}-fill`, 'visibility', 'none')
           stateMap.setLayoutProperty(`${slug}-end`, 'visibility', 'none')
           stateMap.setLayoutProperty(`${slug}-start`, 'visibility', 'none')
+          if (isCollection) {
+            stateMap.setPaintProperty(slug, 'line-dasharray', null)
+          }
         }
       })
     } else {
       routes.forEach((route: Route) => {
-        const { slug } = route
+        const {
+          slug,
+          geoJson: { features },
+        } = route
+        const isCollection = features.length > 1
         if (stateMap) {
           stateMap.setLayoutProperty(slug, 'visibility', 'visible')
           stateMap.setLayoutProperty(`${slug}-fill`, 'visibility', 'visible')
           stateMap.setLayoutProperty(`${slug}-end`, 'visibility', 'none')
           stateMap.setLayoutProperty(`${slug}-start`, 'visibility', 'none')
+          if (isCollection) {
+            stateMap.setPaintProperty(slug, 'line-dasharray', null)
+          }
           stateMap.flyTo({
             center: [lng, lat],
             essential: true,

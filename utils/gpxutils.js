@@ -3,7 +3,7 @@ const path = require('path')
 const toGeoJson = require('@mapbox/togeojson')
 const turflength = require('@turf/length').default
 const xmldom = require('xmldom')
-const met = require('../data/meta.js')
+const met = require('../data/meta')
 
 const ROUTES_PATH = path.join(process.cwd(), 'public', 'gpx')
 
@@ -15,8 +15,10 @@ const routeFilePaths = fs
 
 const routes = routeFilePaths.map(filePath => {
   const source = new xmldom.DOMParser().parseFromString(fs.readFileSync(path.join(ROUTES_PATH, filePath), 'utf8'))
-  const geoJson = toGeoJson.gpx(source)
   const slug = filePath.replace('.gpx', '')
+  const metadata = met.meta[slug]
+
+  const geoJson = toGeoJson.gpx(source)
 
   // Calculate distance using geoJson
   const distance = turflength(geoJson)
@@ -30,17 +32,17 @@ const routes = routeFilePaths.map(filePath => {
     if (elevationDifference > 0) elevation += elevationDifference
   })
 
-  const metadata = met.meta[slug]
-
   return {
     distance,
     elevation,
-    geoJson,
+    geoJson: metadata?.geoJson || geoJson,
+    gpxGeoJson: geoJson, // TODO send original gpx geojson to generate-images until it handles the multi-feature geojson
     slug,
     color: metadata?.color || 'red',
     description: metadata?.description || null,
     rating: metadata?.rating || null,
     location: metadata?.location || null,
+    swimrun: metadata?.swimrun || false,
   }
 })
 
