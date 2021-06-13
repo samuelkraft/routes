@@ -6,7 +6,7 @@ const Chart = ({ coordinates }: { coordinates: Array<{ lat: number; lon: number;
     <div style={{ height: 120, overflow: 'hidden' }}>
       <FlexibleXYPlot height={150}>
         <HorizontalGridLines />
-        <AreaSeries curve="curveNatural" data={data} color="#DDE8CD" />
+        <AreaSeries curve="curveLinear" data={data} color="#DDE8CD" />
         <LineSeries data={data} color="#75A134" strokeWidth={1} />
         <YAxis />
       </FlexibleXYPlot>
