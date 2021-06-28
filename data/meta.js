@@ -7,12 +7,14 @@ const meta = {
     rating: 5,
     location: 'Nacka · Stockholm',
     color: colors.blue[500],
+    added: '2020-03-25',
   },
   hellasgarden_gula: {
     description: 'A fairly complex and fun route going around Källtorpssjön clearly marked with yellow signs.',
     rating: 5,
     location: 'Nacka · Stockholm',
     color: colors.yellow[300],
+    added: '2020-03-25',
   },
   langsjon_jarlasjon: {
     description:
@@ -20,6 +22,7 @@ const meta = {
     rating: 4,
     location: 'Nacka · Stockholm',
     color: colors.yellow[400],
+    added: '2020-03-25',
   },
   grona_atrail: {
     rating: 3,
@@ -27,6 +30,7 @@ const meta = {
     color: colors.green[500],
     description:
       'I have mixed feelings about this one. It is very technical with lots of flat rocks (swedish: "hällar") making it pretty rough! It is nice anyways because you feel like you are in the middle of the forest, but still easy to access.',
+    added: '2020-03-25',
   },
   kranglan_trails: {
     description:
@@ -34,6 +38,7 @@ const meta = {
     rating: 4,
     location: 'Nacka · Stockholm',
     color: colors.purple[500],
+    added: '2020-03-29',
   },
   booleden_varmdoleden: {
     description:
@@ -41,6 +46,7 @@ const meta = {
     rating: 4,
     location: 'Boo - Värmdö',
     color: colors.red[500],
+    added: '2020-03-29',
   },
   kvarnsjon: {
     description:
@@ -48,6 +54,7 @@ const meta = {
     rating: 3,
     location: 'Värmdö',
     color: colors.yellow[400],
+    added: '2020-04-08',
   },
   getstigen: {
     description:
@@ -55,22 +62,26 @@ const meta = {
     rating: 4,
     location: 'Velamsund',
     color: colors.yellow[400],
+    added: '2020-04-08',
   },
   jarvso_klack: {
     description: 'Järvsö-klack is a 390m heigh montain close to Järvsö. Perfect if you want steep climbs, or train on downhills.',
     rating: 4,
     location: 'Järvsö',
     color: colors.pink[400],
+    added: '2020-04-08',
   },
   trollsjon: {
     rating: 4,
     location: 'Boo · Stockholm',
     color: colors.pink[400],
+    added: '2020-04-25',
   },
   roda_sparet_velamsund: {
     rating: 5,
     location: 'Velamsund',
     color: colors.red[400],
+    added: '2020-04-25',
   },
   langsjon: {
     rating: 4,
@@ -79,6 +90,7 @@ const meta = {
     swimrun: true,
     description:
       "A short swimrun loop in and around Långsjön. 4 run sections on trails and gravel roads with one nice climb and 3 swims around 250-300 meters each. \nStart at the north-western part of the lake and run towards the beach, from the beach swim east aiming at the small beach/outdoor gym. \nFollow the gravel road until a cliff appears on the right. Swim along the edge of the lake until the next cliff appears. Follow the trail back around 500 meters until you see a trail going up the mountain. Take right at the peak and follow the trail until you come down to the water. \nSwim towards the beach, and then follow the road then make a U-turn to a path 'above' the regular trail, follow it until the end and you completed one loop! \nRepeat as many times you want.",
+    added: '2020-06-13',
     geoJson: {
       type: 'FeatureCollection',
       features: [
@@ -244,6 +256,7 @@ const meta = {
     rating: 5,
     location: 'Lummelunda - Gotland',
     color: colors.red[500],
+    added: '2020-06-28',
   },
 }
 

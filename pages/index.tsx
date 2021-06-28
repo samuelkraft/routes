@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { motion } from 'framer-motion'
 
@@ -7,6 +7,8 @@ import Route from 'components/route'
 import MapBox from 'components/mapbox'
 import Button from 'components/button'
 import RoutePage from 'components/routepage'
+import Select from 'components/select'
+
 // Types
 import type { Routes } from 'types'
 
@@ -19,6 +21,7 @@ type RoutesProps = {
 }
 
 const Home = ({ routes, queryRoute }: RoutesProps) => {
+  const [sorting, setSorting] = useState('added')
   const aside = useRef<HTMLElement>()
   const currentRoute = routes.find(route => route.slug === queryRoute)
 
@@ -28,6 +31,17 @@ const Home = ({ routes, queryRoute }: RoutesProps) => {
       sidebar.scrollTop = 0
     }
   }, [queryRoute])
+
+  const sortRoutes = (a, b) => {
+    switch (sorting) {
+      case 'alphabetically':
+        return a.geoJson.features[0].properties.name.localeCompare(b.geoJson.features[0].properties.name, 'sv')
+      case 'rating':
+        return b.rating - a.rating
+      default:
+        return new Date(b.added).valueOf() - new Date(a.added).valueOf()
+    }
+  }
 
   return (
     <main className="bg-[#E6E4E0] h-screen w-screen sm:overflow-hidden">
@@ -54,7 +68,7 @@ const Home = ({ routes, queryRoute }: RoutesProps) => {
               Add Route
             </Button>
           </nav>
-          <header className="text-center py-16">
+          <header className="py-16 text-center">
             <img src="/logo.svg" alt="Trail Router logotype" className="mx-auto mb-3" />
             <p className="text-forest-darkest">
               Sweden has tons of trails for hiking &amp; running, but how do you decide where to go? Trail Routes is a curation of the best
@@ -62,9 +76,16 @@ const Home = ({ routes, queryRoute }: RoutesProps) => {
             </p>
           </header>
           <section>
-            <h1 className="font-bold text-2xl py-3 sticky -mx-5 px-5 -top-5 bg-blur text-forest-darkest z-10">All routes</h1>
+            <div className="sticky z-10 flex justify-between px-5 py-4 -mx-5 bg-blur -top-5">
+              <h1 className="text-2xl font-bold text-forest-darkest">All routes</h1>
+              <Select value={sorting} onChange={e => setSorting(e.target.value)}>
+                <option value="added">Recently added</option>
+                <option value="rating">Rating</option>
+                <option value="alphabetically">Alphabetically</option>
+              </Select>
+            </div>
             <ol>
-              {routes.map(route => (
+              {routes.sort(sortRoutes).map(route => (
                 <Route key={route.slug} route={route} />
               ))}
             </ol>
@@ -88,7 +109,7 @@ const Home = ({ routes, queryRoute }: RoutesProps) => {
 export const getServerSideProps: GetServerSideProps = async context => {
   return {
     props: {
-      routes: gpxUtils.routes.sort((a, b) => b.rating - a.rating),
+      routes: gpxUtils.routes.sort((a, b) => new Date(b.added).valueOf() - new Date(a.added).valueOf()),
       queryRoute: context.query.route || null,
     },
   }

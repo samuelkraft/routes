@@ -22,6 +22,7 @@ export type Route = {
   location?: string
   color: string
   swimrun?: boolean
+  date: string
 }
 
 export type Routes = Array<Route>

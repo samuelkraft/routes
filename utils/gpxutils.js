@@ -43,6 +43,7 @@ const routes = routeFilePaths.map(filePath => {
     rating: metadata?.rating || null,
     location: metadata?.location || null,
     swimrun: metadata?.swimrun || false,
+    added: metadata?.added,
   }
 })
 
