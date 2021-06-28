@@ -240,7 +240,7 @@ const meta = {
     },
   },
   kinnerstugan: {
-    description: 'Beautiful route at Lummelunda, Gotland that goes along breathtaking cliffs along the ocean.',
+    description: 'Beautiful route at Lummelunda, Gotland that goes along breathtaking cliffs by the ocean.',
     rating: 5,
     location: 'Lummelunda - Gotland',
     color: colors.red[500],
