@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gpx creator="StravaGPX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd" version="1.1" xmlns="http://www.topografix.com/GPX/1/1">
  <metadata>
-  <name>Kinnerstugan 14km</name>
+  <name>Kinnerstugan</name>
   <author>
    <name>Samuel Kraft </name>
    <link href="https://www.strava.com/athletes/18364318"/>
@@ -13,9 +13,9 @@
   <link href="https://www.strava.com/routes/2723534815819793994"/>
  </metadata>
  <trk>
-  <name>Kinnerstugan 14km</name>
+  <name>Kinnerstugan</name>
   <link href="https://www.strava.com/routes/2723534815819793994"/>
-  <type>Ride</type>
+  <type>Run</type>
   <trkseg>
    <trkpt lat="57.75986" lon="18.42351">
     <ele>39.16</ele>
