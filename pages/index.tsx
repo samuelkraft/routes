@@ -40,6 +40,10 @@ const Home = ({ routes, queryRoute }: RoutesProps) => {
         return a.geoJson.features[0].properties.name.localeCompare(b.geoJson.features[0].properties.name, 'sv')
       case 'rating':
         return b.rating - a.rating
+      case 'distance':
+        return b.distance - a.distance
+      case 'elevation':
+        return b.elevation - a.elevation
       default:
         return new Date(b.added).valueOf() - new Date(a.added).valueOf()
     }
@@ -109,6 +113,8 @@ const Home = ({ routes, queryRoute }: RoutesProps) => {
                 <Select value={sorting} onChange={e => setSorting(e.target.value)}>
                   <option value="added">Recently added</option>
                   <option value="rating">Rating</option>
+                  <option value="distance">Distance</option>
+                  <option value="elevation">Elevation gain</option>
                   <option value="alphabetically">Alphabetically</option>
                 </Select>
               </div>
