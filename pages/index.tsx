@@ -84,7 +84,7 @@ const Home = ({ routes, queryRoute }: RoutesProps) => {
                 <Link href={{ query: { route: randomRoute.slug } }}>
                   <a
                     title="Randomize route"
-                    className="flex items-center px-2 mr-2 transition-all border border-gray-200 rounded hover:border-gray-300"
+                    className="flex items-center px-2 mr-2 transition-all bg-white border border-gray-200 rounded hover:border-gray-300"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
