@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 // Components
 import Route from 'components/route'
@@ -24,6 +25,7 @@ const Home = ({ routes, queryRoute }: RoutesProps) => {
   const [sorting, setSorting] = useState('added')
   const aside = useRef<HTMLElement>()
   const currentRoute = routes.find(route => route.slug === queryRoute)
+  const randomRoute = routes[Math.floor(Math.random() * routes.length)]
 
   useEffect(() => {
     const sidebar = aside.current
@@ -78,11 +80,38 @@ const Home = ({ routes, queryRoute }: RoutesProps) => {
           <section>
             <div className="sticky z-10 flex justify-between px-5 py-4 -mx-5 bg-blur -top-5">
               <h1 className="text-2xl font-bold text-forest-darkest">All routes</h1>
-              <Select value={sorting} onChange={e => setSorting(e.target.value)}>
-                <option value="added">Recently added</option>
-                <option value="rating">Rating</option>
-                <option value="alphabetically">Alphabetically</option>
-              </Select>
+              <div className="flex">
+                <Link href={{ query: { route: randomRoute.slug } }}>
+                  <a
+                    title="Randomize route"
+                    className="flex items-center px-2 mr-2 transition-all border border-gray-200 rounded hover:border-gray-300"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="w-[18px] h-auto"
+                    >
+                      <polyline points="16 3 21 3 21 8" />
+                      <line x1="4" y1="20" x2="21" y2="3" />
+                      <polyline points="21 16 21 21 16 21" />
+                      <line x1="15" y1="15" x2="21" y2="21" />
+                      <line x1="4" y1="4" x2="9" y2="9" />
+                    </svg>
+                  </a>
+                </Link>
+                <Select value={sorting} onChange={e => setSorting(e.target.value)}>
+                  <option value="added">Recently added</option>
+                  <option value="rating">Rating</option>
+                  <option value="alphabetically">Alphabetically</option>
+                </Select>
+              </div>
             </div>
             <ol>
               {routes.sort(sortRoutes).map(route => (
