@@ -258,6 +258,14 @@ const meta = {
     color: colors.red[500],
     added: '2020-06-28',
   },
+  salbohed: {
+    description:
+      'A very flat 6k run on (mostly) gravel. Not technical at all, so good for recovery runs or going flat-out. This route goes "through" some properties but on public roads, be nice and say hi if you meet anyone 😊.',
+    rating: 3,
+    location: 'Salbohed - Västmanland',
+    color: colors.green[500],
+    added: '2021-11-21',
+  },
 }
 
 module.exports = { meta }
