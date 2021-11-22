@@ -28,3 +28,11 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Troubleshooting
+
+If you get an error like `fatal error: 'vips/vips8' file not found` you need to install the `vips` package.
+
+```bash
+brew install vips
+```
