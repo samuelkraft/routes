@@ -13,6 +13,9 @@ import Select from 'components/select'
 // Types
 import type { Routes } from 'types'
 
+// Hooks
+import { useIsSmall } from 'utils/hooks'
+
 // Data
 const gpxUtils = require('../utils/gpxutils.js')
 
@@ -26,6 +29,7 @@ const Home = ({ routes, queryRoute }: RoutesProps) => {
   const aside = useRef<HTMLElement>()
   const currentRoute = routes.find(route => route.slug === queryRoute)
   const randomRoute = routes[Math.floor(Math.random() * routes.length)]
+  const isSmall = useIsSmall()
 
   useEffect(() => {
     const sidebar = aside.current
@@ -132,11 +136,25 @@ const Home = ({ routes, queryRoute }: RoutesProps) => {
             </a>
           </footer>
         </motion.div>
-        <RoutePage route={currentRoute} />
+        <RoutePage route={currentRoute}>
+          {currentRoute && (
+            <div className="relative block pb-[56%] mb-8 -m-5 text-xl sm:hidden text-forest">
+              {!isSmall && (
+                <MapBox
+                  routes={routes}
+                  initialLng={currentRoute.geoJson.features[0].geometry.coordinates[0][0]}
+                  initialLat={currentRoute.geoJson.features[0].geometry.coordinates[0][1]}
+                />
+              )}
+            </div>
+          )}
+        </RoutePage>
       </aside>
-      <div className="hidden sm:block text-xl text-forest ml-[430px] h-screen relative">
-        <MapBox routes={routes} />
-      </div>
+      {isSmall && (
+        <div className="block text-xl text-forest ml-[430px] h-screen relative">
+          <MapBox routes={routes} />
+        </div>
+      )}
     </main>
   )
 }
