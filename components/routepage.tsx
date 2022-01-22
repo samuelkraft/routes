@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { NextSeo } from 'next-seo'
@@ -14,7 +15,7 @@ import type { Route } from 'types'
 // Utils
 import { event } from 'lib/gtag'
 
-const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
+const RoutePage = ({ route, children }: { route: Route; children: ReactNode }): JSX.Element | null => {
   if (!route) {
     return null
   }
@@ -125,6 +126,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
               </div>
             )}
           </header>
+          {children}
           <div className="p-2 mb-2 border border-gray-200 rounded">
             <Chart coordinates={route.gpxGeoJson.features[0].geometry.coordinates} />
           </div>

@@ -10,6 +10,8 @@ mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
 
 type MapBoxProps = {
   routes: Routes
+  initialLat?: number
+  initialLng?: number
 }
 
 // Initial map
@@ -18,7 +20,7 @@ const lng = 18.274050337530213
 const lat = 59.31711298954641
 const zoom = 11
 
-const MapBox = ({ routes }: MapBoxProps): JSX.Element => {
+const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JSX.Element => {
   const [stateMap, setStateMap] = useState(null)
   const mapContainer = useRef()
 
@@ -29,7 +31,7 @@ const MapBox = ({ routes }: MapBoxProps): JSX.Element => {
     const map = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/outdoors-v11',
-      center: [lng, lat],
+      center: [initialLng, initialLat],
       zoom,
     })
 

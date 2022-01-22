@@ -57,7 +57,7 @@ const Route = ({ route: { geoJson, distance, elevation, slug, color, swimrun } }
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          className="text-gray-400 absolute right-4 top-1/2 transform -translate-y-1/2 w-[20px]"
+          className="text-gray-400 absolute right-4 top-1/2 -translate-y-1/2 w-[20px]"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>

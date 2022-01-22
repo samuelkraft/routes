@@ -27,7 +27,7 @@ const meta = {
   grona_atrail: {
     rating: 3,
     location: 'Nackareservatet · Stockholm',
-    color: colors.green[500],
+    color: colors.emerald[500],
     description:
       'I have mixed feelings about this one. It is very technical with lots of flat rocks (swedish: "hällar") making it pretty rough! It is nice anyways because you feel like you are in the middle of the forest, but still easy to access.',
     added: '2020-03-25',
@@ -263,7 +263,7 @@ const meta = {
       'A very flat 6k run on (mostly) gravel. Not technical at all, so good for recovery runs or going flat-out. This route goes "through" some properties but on public roads, be nice and say hi if you meet anyone 😊.',
     rating: 3,
     location: 'Salbohed - Västmanland',
-    color: colors.green[500],
+    color: colors.emerald[500],
     added: '2021-11-21',
   },
 }
