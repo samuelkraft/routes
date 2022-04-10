@@ -31,6 +31,12 @@ module.exports = {
     'import/prefer-default-export': 0,
     'import/extensions': 0,
     '@typescript-eslint/explicit-module-boundary-types': 0,
+    camelcase: 0,
+    'no-shadow': 0,
+    'no-use-before-define': 0,
+    'no-case-declarations': 0,
+    'no-constant-condition': 0,
+    'no-await-in-loop': 0,
   },
   globals: {
     JSX: true,

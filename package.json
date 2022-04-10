@@ -11,6 +11,7 @@
   "dependencies": {
     "@mapbox/polyline": "^1.1.1",
     "@mapbox/togeojson": "^0.16.0",
+    "@notionhq/client": "^1.0.4",
     "@turf/length": "^6.3.0",
     "@types/gtag.js": "^0.0.4",
     "canvas": "^2.7.0",

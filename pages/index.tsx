@@ -6,7 +6,6 @@ import Link from 'next/link'
 // Components
 import Route from 'components/route'
 import MapBox from 'components/mapbox'
-import Button from 'components/button'
 import RoutePage from 'components/routepage'
 import Select from 'components/select'
 
@@ -15,6 +14,7 @@ import type { Routes } from 'types'
 
 // Hooks
 import { useIsSmall } from 'utils/hooks'
+import Nav from 'components/nav'
 
 // Data
 const gpxUtils = require('../utils/gpxutils.js')
@@ -73,11 +73,7 @@ const Home = ({ routes, queryRoute }: RoutesProps) => {
           }
           transition={{ ease: 'easeOut', duration: 0.2 }}
         >
-          <nav className="flex justify-end">
-            <Button onClick={() => window.open('mailto:samuelkraft@me.com?subject=🏃‍♀️ I want to add a route to Trail Runner!')}>
-              Add Route
-            </Button>
-          </nav>
+          <Nav />
           <header className="py-16 text-center">
             <img src="/logo.svg" alt="Trail Router logotype" className="mx-auto mb-3" />
             <p className="text-forest-darkest">
