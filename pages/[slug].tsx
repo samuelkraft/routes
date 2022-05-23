@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { GetStaticProps, GetStaticPaths } from 'next'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { NextSeo } from 'next-seo'
@@ -12,10 +12,21 @@ import Chart from 'components/chart'
 // Types
 import type { Route } from 'types'
 
+// Hooks
+import { useIsSmall } from 'utils/hooks'
+
 // Utils
 import { event } from 'lib/gtag'
+import { useRouter } from 'next/router'
+import MapBox from 'components/mapbox'
 
-const RoutePage = ({ route, children }: { route: Route; children: ReactNode }): JSX.Element | null => {
+// Data
+const gpxUtils = require('../utils/gpxutils.js')
+
+const RoutePage = ({ routes }: { routes: Route[] }): JSX.Element | null => {
+  const router = useRouter()
+  const route = routes.find(x => x.slug === router.query.slug)
+  const isSmall = useIsSmall()
   if (!route) {
     return null
   }
@@ -25,12 +36,7 @@ const RoutePage = ({ route, children }: { route: Route; children: ReactNode }): 
   const statBoxClassName = 'justify-center p-2 border border-gray-200 rounded'
 
   return (
-    <motion.div
-      className="absolute top-0 w-full min-h-screen px-5 -ml-5 -mr-5 bg-white"
-      initial={{ x: 430 }}
-      animate={{ x: 0 }}
-      transition={{ ease: 'easeOut', duration: 0.2 }}
-    >
+    <motion.div className="min-h-screen bg-white" initial={{ x: 430 }} animate={{ x: 0 }} transition={{ ease: 'easeOut', duration: 0.2 }}>
       <NextSeo
         title={seoTitle}
         description={route.description}
@@ -49,7 +55,7 @@ const RoutePage = ({ route, children }: { route: Route; children: ReactNode }): 
       />
       {route && (
         <>
-          <nav className="sticky z-10 flex items-center justify-between px-5 py-3 -mx-5 border-b border-gray-200 bg-blur -top-5">
+          <nav className="sticky top-0 z-10 flex items-center justify-between px-5 py-3 -mx-5 border-b border-gray-200 bg-blur">
             <Link href="/">
               <a>
                 <svg
@@ -126,7 +132,11 @@ const RoutePage = ({ route, children }: { route: Route; children: ReactNode }): 
               </div>
             )}
           </header>
-          {children}
+          {!isSmall && (
+            <div className="block text-xl text-forest pb-[50%] relative -mx-5">
+              <MapBox routes={[route]} />
+            </div>
+          )}
           <div className="p-2 mb-2 border border-gray-200 rounded">
             <Chart coordinates={route.gpxGeoJson.features[0].geometry.coordinates} />
           </div>
@@ -172,3 +182,22 @@ const RoutePage = ({ route, children }: { route: Route; children: ReactNode }): 
 }
 
 export default RoutePage
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = gpxUtils.routes.map(route => ({ params: { slug: route.slug } }))
+  return {
+    paths,
+    fallback: false,
+  }
+}
+
+export const getStaticProps: GetStaticProps = async context => {
+  const route = gpxUtils.routes.find(x => x.slug === context.params.slug)
+  return {
+    props: {
+      initialLat: route.gpxGeoJson.features[0].geometry.coordinates[0][1],
+      initialLng: route.gpxGeoJson.features[0].geometry.coordinates[0][0],
+      routes: gpxUtils.routes, // Todo: only send the current route - refactor mapbox component to support adding/removing routes
+    },
+  }
+}
