@@ -25,7 +25,7 @@ const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JS
   const mapContainer = useRef()
 
   const router = useRouter()
-  const queryRoute = router.query.route
+  const queryRoute = router.query.slug
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -147,7 +147,7 @@ const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JS
             padding: 20,
           })
 
-          router.push({ query: { route: slug } })
+          router.push(`/${slug}`)
         })
 
         map.on('mouseenter', `${slug}-fill`, () => {
