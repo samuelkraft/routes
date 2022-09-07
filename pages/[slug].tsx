@@ -17,15 +17,12 @@ import { useIsSmall } from 'utils/hooks'
 
 // Utils
 import { event } from 'lib/gtag'
-import { useRouter } from 'next/router'
 import MapBox from 'components/mapbox'
 
 // Data
 const gpxUtils = require('../utils/gpxutils.js')
 
-const RoutePage = ({ routes }: { routes: Route[] }): JSX.Element | null => {
-  const router = useRouter()
-  const route = routes.find(x => x.slug === router.query.slug)
+const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
   const isSmall = useIsSmall()
   if (!route) {
     return null
@@ -40,8 +37,9 @@ const RoutePage = ({ routes }: { routes: Route[] }): JSX.Element | null => {
       <NextSeo
         title={seoTitle}
         description={route.description}
+        canonical={`https://routes.samuekraft.com/${route.slug}`}
         openGraph={{
-          url: `https://routes.samuekraft.com/?route=${route.slug}`,
+          url: `https://routes.samuekraft.com/${route.slug}`,
           title: seoTitle,
           description: route.description,
           images: [
@@ -197,7 +195,8 @@ export const getStaticProps: GetStaticProps = async context => {
     props: {
       initialLat: route.gpxGeoJson.features[0].geometry.coordinates[0][1],
       initialLng: route.gpxGeoJson.features[0].geometry.coordinates[0][0],
-      routes: gpxUtils.routes, // Todo: only send the current route - refactor mapbox component to support adding/removing routes
+      routes: gpxUtils.routes, // Used for mapbox component in _app.tsx
+      route,
     },
   }
 }
