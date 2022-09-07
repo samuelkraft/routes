@@ -1,4 +1,19 @@
 module.exports = {
+  async redirects() {
+    return [
+      {
+        source: '/',
+        has: [
+          {
+            type: 'query',
+            key: 'route',
+          },
+        ],
+        destination: '/:route/',
+        permanent: true,
+      },
+    ]
+  },
   future: {
     webpack5: true,
   },
