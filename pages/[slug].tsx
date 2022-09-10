@@ -135,7 +135,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
               <MapBox routes={[route]} />
             </div>
           )}
-          <div className="p-2 mb-2 border border-gray-200 rounded">
+          <div className="p-3 mb-2 border border-gray-200 rounded">
             <Chart coordinates={route.gpxGeoJson.features[0].geometry.coordinates} />
           </div>
           <ul className="grid grid-cols-2 grid-rows-2 gap-2 mb-6">
