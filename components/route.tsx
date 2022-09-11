@@ -20,13 +20,13 @@ export const Stat = ({
   </li>
 )
 
-const Route = ({ route: { geoJson, distance, elevation, slug, color, swimrun } }: { route: RouteProps }): JSX.Element => {
+const Route = ({ route: { geoJson, distance, elevation, slug, color, type } }: { route: RouteProps }): JSX.Element => {
   const { name } = geoJson.features[0].properties
   return (
     <Link href={`/${slug}`} key={name}>
       <a className="relative block p-4 mb-5 transition border border-gray-200 rounded hover:border-gray-300">
         <p className="font-semibold text-xl mb-1.5 text-forest-darkest">
-          {swimrun ? (
+          {type === 'swimrun' ? (
             <svg
               className="inline-block w-[14px] h-auto mr-3"
               width="94"

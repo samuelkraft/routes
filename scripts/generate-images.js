@@ -13,7 +13,7 @@ async function generate() {
   await Promise.all(
     routes.map(async route => {
       // simplify the geojson and strip extra points from coordinates to fit mapbox's api
-      const geoJson = simplify(gp(route.gpxGeoJson, 4), 0.0001)
+      const geoJson = simplify(gp(route.geoJson, 4), 0.0001)
       // Encode our geoJson to a polyline - replace any "?" with encoded value or mapbox will break
       const poly = polyline.fromGeoJSON(geoJson.features[0].geometry).replace(/\?/g, '%3F')
       // Mapbox wants a hash-less hex value

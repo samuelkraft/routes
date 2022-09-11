@@ -11,17 +11,18 @@ type geoJson = {
   }>
 }
 
+type Type = 'run' | 'swimrun'
+
 export type Route = {
   slug: string
+  type: Type
   distance: number
   elevation: number
   geoJson: geoJson
-  gpxGeoJson: geoJson
   rating?: number
   description?: string
   location?: string
   color: string
-  swimrun?: boolean
   date: string
 }
 

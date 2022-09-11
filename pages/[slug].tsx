@@ -28,7 +28,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
     return null
   }
   const { name } = route.geoJson.features[0].properties
-  const seoTitle = `${name} | ${route.swimrun ? 'Swimrun route' : 'Trail running & hiking route'}`
+  const seoTitle = `${name} | ${route.type === 'swimrun' ? 'Swimrun route' : 'Trail running & hiking route'}`
   const link = route.geoJson.features[0].properties?.links?.[0]?.href
   const statBoxClassName = 'justify-center p-2 border border-gray-200 rounded'
 
@@ -84,7 +84,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
           </nav>
           <header className="text-center py-14">
             <h1 className="px-5 py-3 mb-0 -mx-5 text-3xl font-bold text-center -top-5 text-forest-darkest">{name}</h1>
-            {(route.location || route.swimrun) && (
+            {(route.location || route.type === 'swimrun') && (
               <div className="flex items-center justify-center">
                 {route.location && (
                   <div className="flex items-center justify-center text-gray-400">
@@ -106,8 +106,8 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
                     <span className="text-xs font-semibold tracking-wide uppercase">{route.location}</span>
                   </div>
                 )}
-                {route.location && route.swimrun && <span className="block mx-3 text-gray-400" />}
-                {route.swimrun && (
+                {route.location && route.type === 'swimrun' && <span className="block mx-3 text-gray-400" />}
+                {route.type === 'swimrun' && (
                   <div className="flex items-center justify-center text-gray-400">
                     <svg
                       className="inline-block w-[14px] h-auto mr-1.5 -mt-0.5"
@@ -136,7 +136,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
             </div>
           )}
           <div className="p-3 mb-2 border border-gray-200 rounded">
-            <Chart coordinates={route.gpxGeoJson.features[0].geometry.coordinates} />
+            <Chart coordinates={route.geoJson.features[0].geometry.coordinates} />
           </div>
           <ul className="grid grid-cols-2 grid-rows-2 gap-2 mb-6">
             <Stat type="Distance" value={`${Math.round(route.distance * 10) / 10} km`} centered className={statBoxClassName} />
@@ -193,8 +193,8 @@ export const getStaticProps: GetStaticProps = async context => {
   const route = gpxUtils.routes.find(x => x.slug === context.params.slug)
   return {
     props: {
-      initialLat: route.gpxGeoJson.features[0].geometry.coordinates[0][1],
-      initialLng: route.gpxGeoJson.features[0].geometry.coordinates[0][0],
+      initialLat: route.geoJson.features[0].geometry.coordinates[0][1],
+      initialLng: route.geoJson.features[0].geometry.coordinates[0][0],
       routes: gpxUtils.routes, // Used for mapbox component in _app.tsx
       route,
     },

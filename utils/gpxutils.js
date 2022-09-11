@@ -35,14 +35,13 @@ const routes = routeFilePaths.map(filePath => {
   return {
     distance,
     elevation,
-    geoJson: metadata?.geoJson || geoJson,
-    gpxGeoJson: geoJson, // TODO send original gpx geojson to generate-images until it handles the multi-feature geojson
+    geoJson,
     slug,
     color: metadata?.color || 'red',
     description: metadata?.description || null,
     rating: metadata?.rating || null,
     location: metadata?.location || null,
-    swimrun: metadata?.swimrun || false,
+    type: metadata?.type || 'run',
     added: metadata?.added,
   }
 })
