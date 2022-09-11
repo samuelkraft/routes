@@ -45,10 +45,7 @@ const Home = ({ routes }: RoutesProps) => {
       </nav>
       <header className="py-16 text-center">
         <img src="/logo.svg" alt="Trail Router logotype" className="mx-auto mb-3" />
-        <p className="text-forest-darkest">
-          Sweden has tons of trails for hiking &amp; running, but how do you decide where to go? Trail Routes is a curation of the best
-          ones!
-        </p>
+        <p className="text-forest-darkest">A curated selection of trails for hiking &amp; running</p>
       </header>
       <section>
         <div className="sticky z-10 flex justify-between px-5 py-4 -mx-5 bg-blur -top-5">

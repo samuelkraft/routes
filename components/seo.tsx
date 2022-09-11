@@ -2,7 +2,7 @@ import { DefaultSeo } from 'next-seo'
 
 const config = {
   title: 'Trail Routes: Curated running & hiking routes',
-  description: 'Explore curated trails in Sweden for hiking & running.',
+  description: 'Explore curated trails for hiking & running.',
   openGraph: {
     type: 'website',
     locale: 'en_US',
