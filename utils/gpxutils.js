@@ -28,9 +28,8 @@ const routes = routeFilePaths.map(filePath => {
   const { coordinates } = geoJson.features[0].geometry
   let totalDistance = 0
   let elevation = 0
-  coordinates.forEach((c, i) => {
+  coordinates.forEach((currentCoordinate, i) => {
     /* Get each coordinate pair */
-    const currentCoordinate = c
     const nextCoordinate = coordinates[i + 1]
 
     if (!nextCoordinate) {
@@ -50,10 +49,10 @@ const routes = routeFilePaths.map(filePath => {
 
     /* First coordinate starts at 0km */
     if (i === 0) {
-      c.push(0)
+      currentCoordinate.push(0)
     }
     /* Add the new total distance to each coordinate */
-    coordinates[i + 1].push(totalDistance)
+    nextCoordinate.push(totalDistance)
 
     /* Calculate elevation gain */
     const elevationDifference = nextCoordinate[2] - currentCoordinate[2]
