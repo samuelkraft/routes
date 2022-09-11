@@ -3,6 +3,7 @@ const path = require('path')
 const toGeoJson = require('@mapbox/togeojson')
 const turflength = require('@turf/length').default
 const xmldom = require('xmldom')
+const { lineString } = require('@turf/helpers')
 const met = require('../data/meta')
 
 const ROUTES_PATH = path.join(process.cwd(), 'public', 'gpx')
@@ -23,12 +24,39 @@ const routes = routeFilePaths.map(filePath => {
   // Calculate distance using geoJson
   const distance = turflength(geoJson)
 
-  // Calculate elevation gain using gpx data
+  // Calculate total distance per coordinate & elevation gain
   const { coordinates } = geoJson.features[0].geometry
+  let totalDistance = 0
   let elevation = 0
-  coordinates.forEach((coord, index) => {
-    if (index === coordinates.length - 1) return // stop 1 point early since comparison requires 2 points
-    const elevationDifference = coordinates[index + 1][2] - coordinates[index][2]
+  coordinates.forEach((c, i) => {
+    /* Get each coordinate pair */
+    const currentCoordinate = c
+    const nextCoordinate = coordinates[i + 1]
+
+    if (!nextCoordinate) {
+      // Last coordinate, nothing more to do
+      return
+    }
+
+    /* Convert coordinate pair to a lineString and measure with @turf/length */
+    const line = lineString([
+      [currentCoordinate[0], currentCoordinate[1]],
+      [nextCoordinate[0], nextCoordinate[1]],
+    ])
+    const newDistance = turflength(line)
+
+    /* Add distance to total */
+    totalDistance += newDistance
+
+    /* First coordinate starts at 0km */
+    if (i === 0) {
+      c.push(0)
+    }
+    /* Add the new total distance to each coordinate */
+    coordinates[i + 1].push(totalDistance)
+
+    /* Calculate elevation gain */
+    const elevationDifference = nextCoordinate[2] - currentCoordinate[2]
     if (elevationDifference > 0) elevation += elevationDifference
   })
 

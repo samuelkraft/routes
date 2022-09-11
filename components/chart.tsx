@@ -1,8 +1,6 @@
 import * as d3 from 'd3'
 import useMeasure from 'react-use-measure'
-import { lineString } from '@turf/helpers'
-import length from '@turf/length'
-import { ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { motion } from 'framer-motion'
 
 type ChartInnerProps = {
@@ -170,46 +168,11 @@ const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
 }
 
 type ChartProps = {
-  coordinates: Array<[number, number, number, number?]>
+  coordinates: Array<[number, number, number, number]> // lat, lng, elevation, distance
 }
 
 const Chart = ({ coordinates }: ChartProps) => {
   const [ref, bounds] = useMeasure()
-
-  /* Measure the total distance for each coordinate
-   * TODO: Move inside gpxutils
-   */
-  const coordinatesWithDistance = coordinates
-  useEffect(() => {
-    let totalDistance = 0
-    coordinates.forEach((c, i) => {
-      /* Get each coordinate pair */
-      const currentCoordinate = c
-      const nextCoordinate = coordinates[i + 1]
-
-      if (!nextCoordinate) {
-        // Last coordinate, nothing more to do
-        return
-      }
-
-      /* Convert coordinate pair to a lineString and measure with @turf/length */
-      const line = lineString([
-        [currentCoordinate[0], currentCoordinate[1]],
-        [nextCoordinate[0], nextCoordinate[1]],
-      ])
-      const distance = length(line)
-
-      /* Add distance to total */
-      totalDistance += distance
-
-      /* First coordinate starts at 0km */
-      if (i === 0) {
-        c.push(0)
-      }
-      /* Add the new total distance to each coordinate */
-      coordinatesWithDistance[i + 1].push(totalDistance)
-    })
-  }, [])
 
   const data = coordinates.map(x => ({ distance: x[3], elevation: x[2] }))
   return (
