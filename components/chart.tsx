@@ -2,7 +2,7 @@ import * as d3 from 'd3'
 import useMeasure from 'react-use-measure'
 import { lineString } from '@turf/helpers'
 import length from '@turf/length'
-import { useEffect } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 
 type ChartInnerProps = {
   data: Array<{ distance: number; elevation: number }>
@@ -11,6 +11,10 @@ type ChartInnerProps = {
 }
 
 const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
+  const [hoverX, setHoverX] = useState(null)
+  const [hoverDistance, setHoverDistance] = useState(null)
+  const [hoverElevation, setHoverElevation] = useState(null)
+
   const margin = {
     top: 20,
     right: 0,
@@ -56,6 +60,39 @@ const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
     return Number.isInteger(distance) ? `${distance}.0` : distance
   }
 
+  const handleMouseMove = e => {
+    const bounds = e.target.getBoundingClientRect()
+    const x = e.clientX - bounds.left + margin.left
+
+    // Get the xScale value from x position
+    const distance = xScale.invert(x)
+    // Get the elevation value by finding the closest matching dataPoint.
+    // TODO: There is probably a d3 function somewhere to get the y value from the x but this works
+    const { elevation } = data.reduce((prev, curr) =>
+      Math.abs(curr.distance - distance) < Math.abs(prev.distance - distance) ? curr : prev,
+    )
+
+    setHoverX(x)
+    setHoverDistance(Math.round(distance * 100) / 100)
+    setHoverElevation(Math.floor(elevation))
+  }
+
+  const HoverText = ({ y, children }: { y: number; children: ReactNode }) => {
+    const alignToRight = hoverX > width - margin.left - margin.right - 55
+    return (
+      <text
+        x={alignToRight ? -4 : 4}
+        y={y}
+        textAnchor={alignToRight ? 'end' : 'start'}
+        alignmentBaseline="hanging"
+        fill="currentColor"
+        className="text-xs font-semibold text-gray-500"
+      >
+        {children}
+      </text>
+    )
+  }
+
   return (
     <svg viewBox={`0 0  ${width} ${height}`}>
       {/* Y ticks */}
@@ -83,10 +120,13 @@ const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
 
       {/* Bottom divider */}
       <line x1={0} x2={width} y1={height - margin.bottom} y2={height - margin.bottom} stroke="currentColor" className="text-gray-200" />
+
       {/* Line */}
       <path d={dLine} stroke="#75A134" fill="none" />
+
       {/* Area/fill */}
       <path d={dArea} fill="url(#gradient)" />
+
       {/* Gradient definition for area fill */}
       <defs>
         <linearGradient id="gradient" x1="0" x2="0" y1="0" y2="1">
@@ -95,6 +135,33 @@ const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
           <stop offset="100%" stopColor="rgba(117,161,52, 0)" />
         </linearGradient>
       </defs>
+
+      {/* Hover line */}
+      {hoverX && (
+        <g transform={`translate(${hoverX}, 0)`}>
+          <line y1={margin.top} y2={height - margin.bottom} stroke="currentColor" className="text-gray-400" />
+          <HoverText y={margin.top}>Dist: {hoverDistance} km</HoverText>
+          <HoverText y={margin.top + 16}>Elev: {hoverElevation} m</HoverText>
+        </g>
+      )}
+
+      {/* Hover element
+       * width will be 0 on first render, if we remove margins we'll get a negative value which rect does not support
+       */}
+      {width > 0 && height > 0 && (
+        <rect
+          width={width - margin.left - margin.right}
+          height={height - margin.top - margin.bottom}
+          fill="transparent"
+          x={margin.left}
+          y={margin.top}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={() => {
+            setHoverX(null)
+            setHoverDistance(null)
+          }}
+        />
+      )}
     </svg>
   )
 }
