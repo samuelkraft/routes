@@ -3,6 +3,7 @@ import useMeasure from 'react-use-measure'
 import { lineString } from '@turf/helpers'
 import length from '@turf/length'
 import { ReactNode, useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 
 type ChartInnerProps = {
   data: Array<{ distance: number; elevation: number }>
@@ -121,11 +122,13 @@ const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
       {/* Bottom divider */}
       <line x1={0} x2={width} y1={height - margin.bottom} y2={height - margin.bottom} stroke="currentColor" className="text-gray-200" />
 
-      {/* Line */}
-      <path d={dLine} stroke="#75A134" fill="none" />
+      <motion.g style={{ originY: '100%' }} initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ duration: 0.7, ease: 'easeOut' }}>
+        {/* Line */}
+        <path d={dLine} stroke="#75A134" fill="none" />
 
-      {/* Area/fill */}
-      <path d={dArea} fill="url(#gradient)" />
+        {/* Area/fill */}
+        <path d={dArea} fill="url(#gradient)" />
+      </motion.g>
 
       {/* Gradient definition for area fill */}
       <defs>
