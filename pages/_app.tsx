@@ -10,6 +10,7 @@ import MapBox from 'components/mapbox'
 
 // Hooks
 import { useIsSmall } from 'utils/hooks'
+import { MapProvider } from 'components/mapprovider'
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const router = useRouter()
@@ -35,7 +36,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   }, [router])
 
   return (
-    <>
+    <MapProvider>
       <SEO />
       <Head>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -53,7 +54,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
           </div>
         )}
       </main>
-    </>
+    </MapProvider>
   )
 }
 

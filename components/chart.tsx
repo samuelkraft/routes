@@ -2,14 +2,16 @@ import * as d3 from 'd3'
 import useMeasure from 'react-use-measure'
 import { ReactNode, useState } from 'react'
 import { motion } from 'framer-motion'
+import { useMapContext } from './mapprovider'
 
 type ChartInnerProps = {
-  data: Array<{ distance: number; elevation: number }>
+  data: Array<{ distance: number; elevation: number; coordinates: number[] }>
   width: number
   height: number
 }
 
 const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
+  const { setHoverCoordinate } = useMapContext()
   const [hoverX, setHoverX] = useState(null)
   const [hoverDistance, setHoverDistance] = useState(null)
   const [hoverElevation, setHoverElevation] = useState(null)
@@ -67,10 +69,11 @@ const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
     const distance = xScale.invert(x)
     // Get the elevation value by finding the closest matching dataPoint.
     // TODO: There is probably a d3 function somewhere to get the y value from the x but this works
-    const { elevation } = data.reduce((prev, curr) =>
+    const { elevation, coordinates } = data.reduce((prev, curr) =>
       Math.abs(curr.distance - distance) < Math.abs(prev.distance - distance) ? curr : prev,
     )
 
+    setHoverCoordinate(coordinates)
     setHoverX(x)
     setHoverDistance(Math.round(distance * 100) / 100)
     setHoverElevation(Math.floor(elevation))
@@ -160,6 +163,7 @@ const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
           onMouseLeave={() => {
             setHoverX(null)
             setHoverDistance(null)
+            setHoverCoordinate(null)
           }}
         />
       )}
@@ -174,7 +178,7 @@ type ChartProps = {
 const Chart = ({ coordinates }: ChartProps) => {
   const [ref, bounds] = useMeasure()
 
-  const data = coordinates.map(x => ({ distance: x[3], elevation: x[2] }))
+  const data = coordinates.map(x => ({ distance: x[3], elevation: x[2], coordinates: [x[0], x[1]] }))
   return (
     <div className="relative w-full h-full" ref={ref}>
       {bounds.width > 0 && <ChartInner data={data} width={bounds.width} height={bounds.height} />}

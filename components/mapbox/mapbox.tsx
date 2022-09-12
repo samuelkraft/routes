@@ -2,27 +2,12 @@ import { useState, useRef, useEffect } from 'react'
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp'
 import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker' // eslint-disable-line
 import { useRouter } from 'next/router'
-import extent from 'turf-extent'
 import type { Route, Routes } from 'types'
+import { useMapContext } from 'components/mapprovider'
+import { paint, getHoverGeoJson, setAllLayersVisibility, flyToGeoJson } from './utils'
 
 mapboxgl.workerClass = MapboxWorker
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
-
-const flyToGeoJson = (map, geoJson) => {
-  const bbox = extent(geoJson)
-  map.fitBounds(bbox, {
-    padding: 20,
-  })
-}
-
-const setAllLayersVisibility = (map, slug: string, essentialsVisibility: string, extrasVisiblity?: string) => {
-  if (map) {
-    map.setLayoutProperty(slug, 'visibility', essentialsVisibility)
-    map.setLayoutProperty(`${slug}-fill`, 'visibility', essentialsVisibility)
-    map.setLayoutProperty(`${slug}-end`, 'visibility', extrasVisiblity || essentialsVisibility)
-    map.setLayoutProperty(`${slug}-start`, 'visibility', extrasVisiblity || essentialsVisibility)
-  }
-}
 
 type MapBoxProps = {
   routes: Routes
@@ -37,6 +22,7 @@ const lat = 59.31711298954641
 const zoom = 11
 
 const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JSX.Element => {
+  const { hoverCoordinate } = useMapContext()
   const [stateMap, setStateMap] = useState(null)
   const mapContainer = useRef()
 
@@ -81,7 +67,7 @@ const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JS
           type: 'geojson',
           data: route.geoJson,
         })
-        // Our path/route
+        // The path/route
         map.addLayer({
           id: slug,
           type: 'line',
@@ -105,7 +91,7 @@ const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JS
             'fill-outline-color': 'transparent',
           },
         })
-
+        // Start point
         map.addLayer({
           id: `${slug}-start`,
           type: 'circle',
@@ -122,13 +108,9 @@ const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JS
               },
             },
           },
-          paint: {
-            'circle-color': '#87CF3E',
-            'circle-radius': 5,
-            'circle-opacity': 1,
-          },
+          paint: paint.start,
         })
-
+        // End point
         map.addLayer({
           id: `${slug}-end`,
           type: 'circle',
@@ -145,14 +127,11 @@ const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JS
               },
             },
           },
-          paint: {
-            'circle-color': 'red',
-            'circle-radius': 5,
-            'circle-opacity': 1,
-          },
+          paint: paint.end,
         })
 
         map.on('click', `${slug}-fill`, () => {
+          // Navigate and fly to route on click
           flyToGeoJson(map, route.geoJson)
           if (!queryRoute) {
             router.push(`/${slug}`)
@@ -171,14 +150,16 @@ const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JS
           map.setPaintProperty(slug, 'line-width', 4)
         })
       })
-
+      // Save map in state so it can be accessed later
       setStateMap(map)
     })
 
     return () => map.remove()
   }, [])
 
+  // Handle showing/hiding layers & flying when route changes
   useEffect(() => {
+    // Hide everything but the current route when on route page
     if (queryRoute && stateMap) {
       routes.forEach((route: Route) => {
         const { slug } = route
@@ -190,12 +171,13 @@ const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JS
         }
       })
     } else {
+      // Reset initial map state when on /
       routes.forEach((route: Route) => {
         const { slug } = route
         if (stateMap) {
           setAllLayersVisibility(stateMap, slug, 'visible', 'none')
           stateMap.flyTo({
-            center: [lng, lat],
+            center: [initialLng, initialLat],
             essential: true,
             zoom,
           })
@@ -203,6 +185,41 @@ const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JS
       })
     }
   }, [queryRoute, stateMap])
+
+  // Handle "current" circle showing/hiding when hovering graph
+  useEffect(() => {
+    if (stateMap) {
+      if (queryRoute && hoverCoordinate) {
+        const { slug } = routes.find(route => route.slug === queryRoute)
+        const geoJson = getHoverGeoJson(hoverCoordinate)
+        const hoverId = `${slug}-current`
+        // Add or update circle
+        if (stateMap.getSource(hoverId)) {
+          stateMap.getSource(hoverId).setData(geoJson)
+        } else {
+          stateMap.addLayer({
+            id: hoverId,
+            type: 'circle',
+            source: {
+              type: 'geojson',
+              data: geoJson,
+            },
+            paint: paint.current,
+          })
+        }
+      } else {
+        // If not hovering then remove the layers
+        routes.forEach((route: Route) => {
+          const { slug } = route
+          const hoverId = `${slug}-current`
+          if (stateMap && stateMap.getSource(hoverId) && stateMap.getLayer(hoverId)) {
+            stateMap.removeLayer(hoverId)
+            stateMap.removeSource(hoverId)
+          }
+        })
+      }
+    }
+  }, [stateMap, queryRoute, hoverCoordinate])
 
   return <div className="absolute inset-0" ref={mapContainer} />
 }
