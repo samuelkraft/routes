@@ -61,9 +61,12 @@ const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
     return Number.isInteger(distance) ? `${distance}.0` : distance
   }
 
+  const clamp = (num, min, max) => Math.min(Math.max(num, min), max)
+
   const handleMouseMove = e => {
     const bounds = e.target.getBoundingClientRect()
-    const x = e.clientX - bounds.left + margin.left
+    const posX = e.clientX ? e.clientX : clamp(e.targetTouches[0].clientX, 58, width + 32) // TODO: measure - 58px from left screen edge, 32px from right
+    const x = posX - bounds.left + margin.left
 
     // Get the xScale value from x position
     const distance = xScale.invert(x)
@@ -77,6 +80,12 @@ const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
     setHoverX(x)
     setHoverDistance(Math.round(distance * 100) / 100)
     setHoverElevation(Math.floor(elevation))
+  }
+
+  const handleMouseLeave = () => {
+    setHoverX(null)
+    setHoverDistance(null)
+    setHoverCoordinate(null)
   }
 
   const HoverText = ({ y, children }: { y: number; children: ReactNode }) => {
@@ -96,7 +105,7 @@ const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
   }
 
   return (
-    <svg viewBox={`0 0  ${width} ${height}`}>
+    <svg viewBox={`0 0  ${width} ${height}`} className="touch-pan-y">
       {/* Y ticks */}
       {yTicks.map((elevation, i) => (
         <g transform={`translate(0, ${yScale(elevation)})`} key={elevation}>
@@ -160,11 +169,9 @@ const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
           x={margin.left}
           y={margin.top}
           onMouseMove={handleMouseMove}
-          onMouseLeave={() => {
-            setHoverX(null)
-            setHoverDistance(null)
-            setHoverCoordinate(null)
-          }}
+          onMouseLeave={handleMouseLeave}
+          onTouchMove={handleMouseMove}
+          onTouchEnd={handleMouseLeave}
         />
       )}
     </svg>

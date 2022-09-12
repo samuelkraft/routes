@@ -131,7 +131,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
             )}
           </header>
           {!isSmall && (
-            <div className="block text-xl text-forest pb-[50%] relative -mx-5">
+            <div className="block text-xl text-forest pb-[50%] relative -mx-5 mb-6">
               <MapBox routes={[route]} />
             </div>
           )}
