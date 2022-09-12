@@ -3,10 +3,9 @@ import { useRouter } from 'next/router'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import SEO from 'components/seo'
-
+import MapComponent from 'components/map'
 import * as gtag from 'lib/gtag'
 import '../styles/globals.css'
-import MapBox from 'components/mapbox'
 
 // Hooks
 import { useIsSmall } from 'utils/hooks'
@@ -49,7 +48,11 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
         </aside>
         {isSmall && (
           <div className="block text-xl text-forest ml-[430px] h-screen relative w-full">
-            <MapBox routes={pageProps.routes} initialLat={pageProps.initialLat} initialLng={pageProps.initialLng} />
+            <MapComponent
+              routes={pageProps.route ? [pageProps.route] : pageProps.routes}
+              initialLat={pageProps.initialLat}
+              initialLng={pageProps.initialLng}
+            />
           </div>
         )}
       </main>

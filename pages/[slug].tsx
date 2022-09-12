@@ -17,7 +17,7 @@ import { useIsSmall } from 'utils/hooks'
 
 // Utils
 import { event } from 'lib/gtag'
-import MapBox from 'components/mapbox'
+import MapComponent from 'components/map'
 
 // Data
 const gpxUtils = require('../utils/gpxutils.js')
@@ -132,7 +132,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
           </header>
           {!isSmall && (
             <div className="block text-xl text-forest pb-[50%] relative -mx-5">
-              <MapBox routes={[route]} />
+              <MapComponent routes={[route]} />
             </div>
           )}
           <div className="p-3 mb-2 border border-gray-200 rounded">
