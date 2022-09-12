@@ -146,8 +146,9 @@ const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JS
           map.fitBounds(bbox, {
             padding: 20,
           })
-
-          router.push(`/${slug}`)
+          if (!queryRoute) {
+            router.push(`/${slug}`)
+          }
         })
 
         map.on('mouseenter', `${slug}-fill`, () => {
