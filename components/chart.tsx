@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { useMapContext } from './mapprovider'
 
 type ChartInnerProps = {
-  data: Array<{ distance: number; elevation: number; coordinates: [number, number] }>
+  data: Array<{ distance: number; elevation: number; coordinates: number[] }>
   width: number
   height: number
 }
