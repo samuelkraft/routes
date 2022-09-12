@@ -48,7 +48,7 @@ const Home = ({ routes }: RoutesProps) => {
         <p className="text-forest-darkest">A curated selection of trails for hiking &amp; running</p>
       </header>
       <section>
-        <div className="sticky z-10 flex justify-between px-5 py-4 -mx-5 bg-blur -top-5">
+        <div className="sticky top-0 z-10 flex justify-between px-5 py-4 -mx-5 bg-blur">
           <h1 className="text-2xl font-bold text-forest-darkest">All routes</h1>
           <div className="flex">
             <Link href={`/${randomRoute.slug}`}>
@@ -85,13 +85,13 @@ const Home = ({ routes }: RoutesProps) => {
             </Select>
           </div>
         </div>
-        <ol>
+        <ol className="pt-1">
           {routes.sort(sortRoutes).map(route => (
             <Route key={route.slug} route={route} />
           ))}
         </ol>
       </section>
-      <footer className="text-center text-gray-500">
+      <footer className="pb-6 text-center text-gray-500">
         A project by{' '}
         <a href="https://twitter.com/samuelkraft" target="_blank" rel="noopener noreferrer" className="text-forest">
           @samuelkraft

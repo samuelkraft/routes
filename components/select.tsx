@@ -12,7 +12,7 @@ const Select = ({ value, onChange, children }: SelectProps) => (
     <select
       value={value}
       onChange={onChange}
-      className="py-1.5 pl-3 pr-8 text-sm text-left border border-gray-200 rounded appearance-none hover:border-gray-300 transition-all bg-inherit"
+      className="z-1 py-1.5 pl-3 pr-8 text-sm text-left border bg-white border-gray-200 rounded appearance-none hover:border-gray-300 transition-all"
     >
       {children}
     </select>
