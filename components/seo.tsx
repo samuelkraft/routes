@@ -10,7 +10,7 @@ const config = {
     site_name: 'Trail Routes',
     images: [
       {
-        url: 'https://routes.samuelkraft.com/og.png',
+        url: 'https://routes.samuelkraft.com/og.jpg',
         alt: 'Trail Routes',
       },
     ],

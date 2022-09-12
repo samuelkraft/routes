@@ -22,7 +22,9 @@ import MapBox from 'components/mapbox'
 // Data
 const gpxUtils = require('../utils/gpxutils.js')
 
-const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
+type RoutePageProps = { route: Route; initialLat: number; initialLng: number }
+
+const RoutePage = ({ route, initialLat, initialLng }: RoutePageProps) => {
   const isSmall = useIsSmall()
   if (!route) {
     return null
@@ -44,7 +46,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
           description: route.description,
           images: [
             {
-              url: `https://routes.samuelkraft.com/og/${route.slug}.png`,
+              url: `https://routes.samuelkraft.com/og/${route.slug}.jpg`,
               width: 1012,
               height: 516,
             },
@@ -132,7 +134,7 @@ const RoutePage = ({ route }: { route: Route }): JSX.Element | null => {
           </header>
           {!isSmall && (
             <div className="block text-xl text-forest pb-[50%] relative -mx-5 mb-6">
-              <MapBox routes={[route]} />
+              <MapBox routes={[route]} initialLat={initialLat} initialLng={initialLng} />
             </div>
           )}
           <div className="p-3 mb-2 border border-gray-200 rounded">

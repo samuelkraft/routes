@@ -62,7 +62,7 @@ async function generate() {
       context.fillText(`RATING`, ratingX, labelY)
 
       const buffer = canvas.toBuffer('image/png')
-      fs.writeFileSync(path.join(process.cwd(), `public/og/${route.slug}.png`), buffer)
+      fs.writeFileSync(path.join(process.cwd(), `public/og/${route.slug}.jpg`), buffer)
     }),
   )
 }
