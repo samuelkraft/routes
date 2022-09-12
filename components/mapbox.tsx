@@ -16,10 +16,12 @@ const flyToGeoJson = (map, geoJson) => {
 }
 
 const setAllLayersVisibility = (map, slug: string, essentialsVisibility: string, extrasVisiblity?: string) => {
-  map.setLayoutProperty(slug, 'visibility', essentialsVisibility)
-  map.setLayoutProperty(`${slug}-fill`, 'visibility', essentialsVisibility)
-  map.setLayoutProperty(`${slug}-end`, 'visibility', extrasVisiblity || essentialsVisibility)
-  map.setLayoutProperty(`${slug}-start`, 'visibility', extrasVisiblity || essentialsVisibility)
+  if (map) {
+    map.setLayoutProperty(slug, 'visibility', essentialsVisibility)
+    map.setLayoutProperty(`${slug}-fill`, 'visibility', essentialsVisibility)
+    map.setLayoutProperty(`${slug}-end`, 'visibility', extrasVisiblity || essentialsVisibility)
+    map.setLayoutProperty(`${slug}-start`, 'visibility', extrasVisiblity || essentialsVisibility)
+  }
 }
 
 type MapBoxProps = {
