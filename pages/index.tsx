@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 
@@ -8,7 +8,7 @@ import Button from 'components/button'
 import Select from 'components/select'
 
 // Types
-import type { Routes } from 'types'
+import { Routes } from 'types'
 
 // Data
 const gpxUtils = require('../utils/gpxutils.js')
@@ -19,7 +19,11 @@ type RoutesProps = {
 
 const Home = ({ routes }: RoutesProps) => {
   const [sorting, setSorting] = useState('added')
-  const randomRoute = routes[Math.floor(Math.random() * routes.length)]
+  const [randomRouteSlug, setRandomRouteSlug] = useState('')
+
+  useEffect(() => {
+    setRandomRouteSlug(routes[Math.floor(Math.random() * routes.length)]?.slug)
+  }, [])
 
   const sortRoutes = (a, b) => {
     switch (sorting) {
@@ -62,7 +66,7 @@ const Home = ({ routes }: RoutesProps) => {
         <div className="sticky top-0 z-10 flex justify-between px-5 py-4 -mx-5 bg-blur">
           <h1 className="text-2xl font-bold text-forest-darkest">All routes</h1>
           <div className="flex">
-            <Link href={`/${randomRoute.slug}`}>
+            <Link href={`/${randomRouteSlug}`}>
               <a
                 title="Randomize route"
                 className="flex items-center px-2 mr-2 transition-all bg-white border border-gray-200 rounded hover:border-gray-300"
