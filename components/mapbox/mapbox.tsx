@@ -40,16 +40,6 @@ const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JS
     // Add zoom/rotate control to the map
     map.addControl(new mapboxgl.NavigationControl())
 
-    // Add geolocate control to the map.
-    map.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true,
-        },
-        trackUserLocation: true,
-      }),
-    )
-
     // Add fullscreen control to the map
     map.addControl(new mapboxgl.FullscreenControl())
 
@@ -156,6 +146,21 @@ const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JS
 
     return () => map.remove()
   }, [])
+
+  // Add geolocate control in separate hook, or it errors on ssr
+  useEffect(() => {
+    if (stateMap) {
+      stateMap.addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: false,
+          },
+          trackUserLocation: true,
+          showUserHeading: true,
+        }),
+      )
+    }
+  }, [stateMap])
 
   // Handle showing/hiding layers & flying when route changes
   useEffect(() => {
