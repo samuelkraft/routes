@@ -10,14 +10,20 @@ export const paint = {
     'circle-stroke-opacity': 1,
   },
   start: {
-    'circle-color': '#87CF3E',
-    'circle-radius': 5,
+    'circle-color': 'white',
+    'circle-radius': 3,
     'circle-opacity': 1,
+    'circle-stroke-color': '#87CF3E',
+    'circle-stroke-width': 3,
+    'circle-stroke-opacity': 1,
   },
   end: {
-    'circle-color': 'red',
-    'circle-radius': 5,
+    'circle-color': 'white',
+    'circle-radius': 3,
     'circle-opacity': 1,
+    'circle-stroke-color': 'red',
+    'circle-stroke-width': 3,
+    'circle-stroke-opacity': 1,
   },
 }
 
