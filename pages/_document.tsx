@@ -37,7 +37,6 @@ export default class MyDocument extends Document {
           <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
           <meta name="theme-color" content="#ffffff" />
 
-          <meta name="viewport" content="width=device-width, user-scalable=no" />
           <link href="https://api.mapbox.com/mapbox-gl-js/v2.1.1/mapbox-gl.css" rel="stylesheet" />
         </Head>
         <body className="antialiased">

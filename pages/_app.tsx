@@ -39,7 +39,7 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     <MapProvider>
       <SEO />
       <Head>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
       </Head>
       <main className="flex bg-[#E6E4E0] sm:h-screen w-screen sm:overflow-hidden">
         <aside
