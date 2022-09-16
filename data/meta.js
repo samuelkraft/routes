@@ -107,6 +107,14 @@ const meta = {
     color: colors.emerald[500],
     added: '2021-11-21',
   },
+  goat_loop: {
+    description:
+      'With a mix of mountains and pavement, this route starts at San Augustin and goes around the goat cheese farm "🐐 Quesería la Gloria". The trail part starts by the end of the parking lot of Hotel Gloria Palace. Pass through the tunnel and make a sharp left after ~100 meters on a small steep trail (270m at 22% avg grade). After this hill the trail gets easier with a steady climb towards the goat farm. Take a right after passing the farm which will bring you down towards the ocean (with amazing views). After the descent simply follow the paved road back towards San Augustin.',
+    rating: 4,
+    location: 'San Augustin - Gran Canaria',
+    color: colors.yellow[500],
+    added: '2022-09-16',
+  },
 }
 
 module.exports = { meta }
