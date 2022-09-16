@@ -18,6 +18,10 @@
     font-family: Proxima Nova;
     src: url(/fonts/proxima-nova-bold.woff) format('woff');
   }
+
+  html {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
 }
 
 .bg-blur {
