@@ -18,6 +18,7 @@ import { useIsSmall } from 'utils/hooks'
 // Utils
 import { event } from 'lib/gtag'
 import MapBox from 'components/mapbox'
+import { useState } from 'react'
 
 // Data
 const gpxUtils = require('../utils/gpxutils.js')
@@ -25,6 +26,7 @@ const gpxUtils = require('../utils/gpxutils.js')
 type RoutePageProps = { route: Route; initialLat: number; initialLng: number }
 
 const RoutePage = ({ route, initialLat, initialLng }: RoutePageProps) => {
+  const [showMap, setShowMap] = useState(false)
   const isSmall = useIsSmall()
   if (!route) {
     return null
@@ -35,7 +37,13 @@ const RoutePage = ({ route, initialLat, initialLng }: RoutePageProps) => {
   const statBoxClassName = 'justify-center p-2 border border-gray-200 rounded'
 
   return (
-    <motion.div className="min-h-screen bg-white" initial={{ x: 430 }} animate={{ x: 0 }} transition={{ ease: 'easeOut', duration: 0.2 }}>
+    <motion.div
+      className="min-h-screen bg-white"
+      initial={{ x: 430 }}
+      animate={{ x: 0 }}
+      transition={{ ease: 'easeOut', duration: 0.2 }}
+      onAnimationComplete={() => setShowMap(true)}
+    >
       <NextSeo
         title={seoTitle}
         description={route.description}
@@ -134,7 +142,7 @@ const RoutePage = ({ route, initialLat, initialLng }: RoutePageProps) => {
           </header>
           {!isSmall && (
             <div className="block text-xl text-forest pb-[50%] relative -mx-5 mb-6">
-              <MapBox routes={[route]} initialLat={initialLat} initialLng={initialLng} />
+              {showMap && <MapBox routes={[route]} initialLat={initialLat} initialLng={initialLng} />}
             </div>
           )}
           <div className="p-3 mb-2 border border-gray-200 rounded">
