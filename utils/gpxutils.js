@@ -63,6 +63,7 @@ const routes = routeFilePaths.map(filePath => {
     distance,
     elevation,
     geoJson,
+    id: slug,
     slug,
     color: metadata?.color || 'red',
     description: metadata?.description || null,
