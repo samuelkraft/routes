@@ -115,6 +115,14 @@ const meta = {
     color: colors.yellow[500],
     added: '2022-09-16',
   },
+  barranco_del_canario_loop: {
+    description:
+      'A mountain-loop that starts by Las Burras beach in San Augustin and goes around the ravine "Barranco del Canario".\nStart by Las Burras parking lot going into a small forest section next to the football field. You will pass a small road/water drainage section, after this make sure to hold left instead of continuing stright as there are homeless people living in the forest up ahead.\nPass through the tunnel under the highway then simply follow the path until it splits in two, where you should take the left turn. The path will quickly lead you to the steepest climb of the route, and after that the climb flattens a little bit. On your right you will have an amazing view over Barranco Del Toro the whole climb.\nThe trail down is wider and easier to run than the climb, and takes you all the way down to another highway tunnel passage. Take a right after the tunnel following the path until you come out on the car road taking you back to Burras Beach (Ocean dip optional but highly recommended 🏊‍♂️).',
+    rating: 5,
+    location: 'San Augustin - Gran Canaria',
+    color: colors.red[400],
+    added: '2022-09-23',
+  },
 }
 
 module.exports = { meta }
