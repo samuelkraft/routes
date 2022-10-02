@@ -18,6 +18,13 @@ export default (_: NextApiRequest, res: NextApiResponse) => {
     const simplifiedGeoJson = simplify(gp(route.geoJson, 4), 0.0001)
     routes[i].polyline = polyline.fromGeoJSON(simplifiedGeoJson.features[0].geometry)
 
+    const elevations = simplifiedGeoJson.features[0].geometry.coordinates.map(coordinate => ({
+      value: coordinate[2],
+      distance: coordinate[3],
+    }))
+
+    routes[i].elevations = elevations
+
     // Remove unused geoJson
     delete routes[i].geoJson
   })
