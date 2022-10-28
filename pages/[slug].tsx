@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -18,14 +19,13 @@ import { useIsSmall } from 'utils/hooks'
 // Utils
 import { event } from 'lib/gtag'
 import MapBox from 'components/mapbox'
-import { useState } from 'react'
 
 // Data
 const gpxUtils = require('../utils/gpxutils.js')
 
 type RoutePageProps = { route: Route; initialLat: number; initialLng: number }
 
-const RoutePage = ({ route, initialLat, initialLng }: RoutePageProps) => {
+function RoutePage({ route, initialLat, initialLng }: RoutePageProps) {
   const [showMap, setShowMap] = useState(false)
   const isSmall = useIsSmall()
   if (!route) {
@@ -64,19 +64,17 @@ const RoutePage = ({ route, initialLat, initialLng }: RoutePageProps) => {
       {route && (
         <>
           <nav className="sticky top-0 z-10 flex items-center justify-between px-5 py-3 -mx-5 border-b border-gray-200 bg-blur">
-            <Link href="/">
-              <a className="hover:opacity-50">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  className="w-[20px] mr-1 -mt-0.5 inline-block"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                <span className="inline-block font-semibold">Routes</span>
-              </a>
+            <Link href="/" className="hover:opacity-50">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="w-[20px] mr-1 -mt-0.5 inline-block"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              <span className="inline-block font-semibold">Routes</span>
             </Link>
             <Button
               href={`/gpx/${route.slug}.gpx`}
