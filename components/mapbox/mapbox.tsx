@@ -21,7 +21,7 @@ const lng = 18.274050337530213
 const lat = 59.31711298954641
 const zoom = 11
 
-const MapBox = ({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JSX.Element => {
+function MapBox({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JSX.Element {
   const { hoverCoordinate } = useMapContext()
   const [stateMap, setStateMap] = useState(null)
   const mapContainer = useRef()

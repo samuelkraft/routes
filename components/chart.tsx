@@ -10,7 +10,7 @@ type ChartInnerProps = {
   height: number
 }
 
-const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
+function ChartInner({ data, width, height }: ChartInnerProps): JSX.Element {
   const { setHoverCoordinate } = useMapContext()
   const [hoverX, setHoverX] = useState(null)
   const [hoverDistance, setHoverDistance] = useState(null)
@@ -88,7 +88,7 @@ const ChartInner = ({ data, width, height }: ChartInnerProps): JSX.Element => {
     setHoverCoordinate(null)
   }
 
-  const HoverText = ({ y, children }: { y: number; children: ReactNode }) => {
+  function HoverText({ y, children }: { y: number; children: ReactNode }) {
     const alignToRight = hoverX > width - margin.left - margin.right - 55
     return (
       <text
@@ -182,7 +182,7 @@ type ChartProps = {
   coordinates: Array<[number, number, number, number]> // lat, lng, elevation, distance
 }
 
-const Chart = ({ coordinates }: ChartProps) => {
+function Chart({ coordinates }: ChartProps) {
   const [ref, bounds] = useMeasure()
 
   const data = coordinates.map(x => ({ distance: x[3], elevation: x[2], coordinates: [x[0], x[1]] }))
