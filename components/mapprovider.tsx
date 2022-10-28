@@ -12,7 +12,7 @@ type MapProviderProps = {
   children: ReactNode
 }
 
-export const MapProvider = ({ children }: MapProviderProps) => {
+export function MapProvider({ children }: MapProviderProps) {
   const [hoverCoordinate, setHoverCoordinate] = useState<Coordinate>(null)
 
   const value = useMemo(
@@ -26,7 +26,7 @@ export const MapProvider = ({ children }: MapProviderProps) => {
   return <MapContext.Provider value={value}>{children}</MapContext.Provider>
 }
 
-export const useMapContext = () => {
+export function useMapContext() {
   const context = useContext(MapContext)
   if (!context) throw Error('Must be used within MapProvider')
   return context

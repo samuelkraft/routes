@@ -22,7 +22,7 @@ const config = {
   },
 }
 
-const SEO = (): JSX.Element => {
+function SEO(): JSX.Element {
   return <DefaultSeo {...config} />
 }
 
