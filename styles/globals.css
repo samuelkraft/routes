@@ -23,6 +23,9 @@
 
   html {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+
+  body {
     background: var(--olive1);
   }
 
