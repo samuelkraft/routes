@@ -10,7 +10,7 @@ type ButtonProps = {
 
 function Button({ type = 'button', children, onClick, disabled, href }: ButtonProps): JSX.Element {
   const classes =
-    'rounded-full px-4 py-2 text-[15px] font-semibold text-forest bg-forest-lightest hover:bg-forest-light disabled:opacity-70 disabled:cursor-not-allowed transition-colors duration-150'
+    'rounded-full px-4 py-2 text-[15px] font-semibold text-forest bg-button hover:bg-button-hover disabled:opacity-70 disabled:cursor-not-allowed transition-colors duration-150 hover:cursor-default'
   if (onClick && !href) {
     return (
       <button className={classes} type={type === 'submit' ? 'submit' : 'button'} onClick={onClick} disabled={disabled}>

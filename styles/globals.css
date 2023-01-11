@@ -1,3 +1,5 @@
+@import '@radix-ui/colors/olive.css';
+@import '@radix-ui/colors/oliveDark.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -21,6 +23,20 @@
 
   html {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+
+  .dark-theme .bg-blur {
+    backdrop-filter: blur(20px);
+  }
+
+  :root {
+    --bg-button: #e8f5d6;
+    --bg-button-hover: #e0eecd;
+  }
+
+  .dark-theme {
+    --bg-button: #262e1b;
+    --bg-button-hover: #2f3823;
   }
 }
 
