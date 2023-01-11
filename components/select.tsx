@@ -13,13 +13,13 @@ function Select({ value, onChange, children }: SelectProps) {
       <select
         value={value}
         onChange={onChange}
-        className="z-1 py-1.5 pl-3 pr-8 text-sm text-left border bg-white border-gray-200 rounded appearance-none hover:border-gray-300 transition-all"
+        className="z-1 py-1.5 pl-3 pr-8 text-sm text-left border bg-primary border-primary rounded appearance-none hover:border-primary-hover transition-all"
       >
         {children}
       </select>
       <span className="absolute inset-y-0 right-0 flex items-center pr-2 ml-3 pointer-events-none">
         <svg
-          className="w-5 h-5 text-gray-400"
+          className="w-5 h-5 text-secondary"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"

@@ -97,7 +97,7 @@ function ChartInner({ data, width, height }: ChartInnerProps): JSX.Element {
         textAnchor={alignToRight ? 'end' : 'start'}
         alignmentBaseline="hanging"
         fill="currentColor"
-        className="text-xs font-semibold text-gray-500"
+        className="text-xs font-semibold text-secondary"
       >
         {children}
       </text>
@@ -109,8 +109,8 @@ function ChartInner({ data, width, height }: ChartInnerProps): JSX.Element {
       {/* Y ticks */}
       {yTicks.map((elevation, i) => (
         <g transform={`translate(0, ${yScale(elevation)})`} key={elevation}>
-          <line x1={margin.left} x2={width - margin.right} stroke="currentColor" className="text-gray-300" strokeDasharray="2, 4" />
-          <text x={margin.left - 5} textAnchor="end" alignmentBaseline="middle" fill="currentColor" className="text-xs text-gray-500">
+          <line x1={margin.left} x2={width - margin.right} stroke="currentColor" className="text-tertiary" strokeDasharray="2, 4" />
+          <text x={margin.left - 5} textAnchor="end" alignmentBaseline="middle" fill="currentColor" className="text-xs text-secondary">
             {i === 0 ? 'm' : elevation}
           </text>
         </g>
@@ -119,18 +119,18 @@ function ChartInner({ data, width, height }: ChartInnerProps): JSX.Element {
       {/* X ticks */}
       {xTicks.map((distance, i) => (
         <g transform={`translate(${xScale(distance)}, 0)`} key={distance}>
-          <line y1={height - margin.bottom} y2={height} stroke="currentColor" className="text-gray-200" />
-          <text x={4} y={height} fill="currentColor" className="text-xs text-gray-500">
+          <line y1={height - margin.bottom} y2={height} stroke="currentColor" className="text-tertiary" />
+          <text x={4} y={height} fill="currentColor" className="text-xs text-secondary">
             {getXText(distance, i)}
           </text>
         </g>
       ))}
 
       {/* Left divider */}
-      <line x1={margin.left} x2={margin.left} y1={margin.top} y2={height - margin.bottom} stroke="currentColor" className="text-gray-200" />
+      <line x1={margin.left} x2={margin.left} y1={margin.top} y2={height - margin.bottom} stroke="currentColor" className="text-tertiary" />
 
       {/* Bottom divider */}
-      <line x1={0} x2={width} y1={height - margin.bottom} y2={height - margin.bottom} stroke="currentColor" className="text-gray-200" />
+      <line x1={0} x2={width} y1={height - margin.bottom} y2={height - margin.bottom} stroke="currentColor" className="text-tertiary" />
 
       <motion.g style={{ originY: '100%' }} initial={{ scaleY: 0 }} animate={{ scaleY: 1 }} transition={{ duration: 0.7, ease: 'easeOut' }}>
         {/* Line */}
@@ -152,7 +152,7 @@ function ChartInner({ data, width, height }: ChartInnerProps): JSX.Element {
       {/* Hover line */}
       {hoverX && (
         <g transform={`translate(${hoverX}, 0)`}>
-          <line y1={margin.top} y2={height - margin.bottom} stroke="currentColor" className="text-gray-400" />
+          <line y1={margin.top} y2={height - margin.bottom} stroke="currentColor" className="text-secondary" />
           <HoverText y={margin.top}>Dist: {hoverDistance} km</HoverText>
           <HoverText y={margin.top + 16}>Elev: {hoverElevation} m</HoverText>
         </g>

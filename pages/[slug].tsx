@@ -34,11 +34,11 @@ function RoutePage({ route, initialLat, initialLng }: RoutePageProps) {
   const { name } = route.geoJson.features[0].properties
   const seoTitle = `${name} | ${route.type === 'swimrun' ? 'Swimrun route' : 'Trail running & hiking route'}`
   const link = route.geoJson.features[0].properties?.links?.[0]?.href
-  const statBoxClassName = 'justify-center p-2 border border-gray-200 rounded'
+  const statBoxClassName = 'justify-center p-2 border border-primary rounded'
 
   return (
     <motion.div
-      className="min-h-screen bg-white"
+      className="min-h-screen bg-primary"
       initial={{ x: 430 }}
       animate={{ x: 0 }}
       transition={{ ease: 'easeOut', duration: 0.2 }}
@@ -63,8 +63,8 @@ function RoutePage({ route, initialLat, initialLng }: RoutePageProps) {
       />
       {route && (
         <>
-          <nav className="sticky top-0 z-10 flex items-center justify-between px-5 py-3 -mx-5 border-b border-gray-200 bg-blur">
-            <Link href="/" className="hover:opacity-50">
+          <nav className="sticky top-0 z-10 flex items-center justify-between px-5 py-3 -mx-5 border-b border-primary bg-blur">
+            <Link href="/" className="transition-opacity hover:opacity-50">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -91,11 +91,11 @@ function RoutePage({ route, initialLat, initialLng }: RoutePageProps) {
             </Button>
           </nav>
           <header className="text-center py-14">
-            <h1 className="px-5 py-3 mb-0 -mx-5 text-3xl font-bold text-center -top-5 text-forest-darkest">{name}</h1>
+            <h1 className="px-5 py-3 mb-0 -mx-5 text-3xl font-bold text-center -top-5 text-primary">{name}</h1>
             {(route.location || route.type === 'swimrun') && (
               <div className="flex items-center justify-center">
                 {route.location && (
-                  <div className="flex items-center justify-center text-gray-400">
+                  <div className="flex items-center justify-center text-secondary">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
@@ -114,9 +114,9 @@ function RoutePage({ route, initialLat, initialLng }: RoutePageProps) {
                     <span className="text-xs font-semibold tracking-wide uppercase">{route.location}</span>
                   </div>
                 )}
-                {route.location && route.type === 'swimrun' && <span className="block mx-3 text-gray-400" />}
+                {route.location && route.type === 'swimrun' && <span className="block mx-3 secondary" />}
                 {route.type === 'swimrun' && (
-                  <div className="flex items-center justify-center text-gray-400">
+                  <div className="flex items-center justify-center text-secondary">
                     <svg
                       className="inline-block w-[14px] h-auto mr-1.5 -mt-0.5"
                       width="94"
@@ -143,7 +143,7 @@ function RoutePage({ route, initialLat, initialLng }: RoutePageProps) {
               {showMap && <MapBox routes={[route]} initialLat={initialLat} initialLng={initialLng} />}
             </div>
           )}
-          <div className="p-3 mb-2 border border-gray-200 rounded">
+          <div className="p-3 mb-2 border rounded border-primary">
             <Chart coordinates={route.geoJson.features[0].geometry.coordinates} />
           </div>
           <ul className="grid grid-cols-2 grid-rows-2 gap-2 mb-6">
@@ -165,7 +165,7 @@ function RoutePage({ route, initialLat, initialLng }: RoutePageProps) {
             )}
           </ul>
 
-          {route.description && <p className="mb-3 leading-relaxed whitespace-pre-wrap">{route.description}</p>}
+          {route.description && <p className="mb-3 leading-relaxed whitespace-pre-wrap text-primary">{route.description}</p>}
 
           {link && (
             <p className="mb-5">

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl-csp'
 import MapboxWorker from 'worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker' // eslint-disable-line
 import { useRouter } from 'next/router'
+import { useTheme } from 'next-themes'
 import type { Route, Routes } from 'types'
 import { useMapContext } from 'components/mapprovider'
 import { paint, getHoverGeoJson, setAllLayersVisibility, flyToGeoJson } from './utils'
@@ -21,6 +22,10 @@ const lng = 18.274050337530213
 const lat = 59.31711298954641
 const zoom = 11
 
+function getStyleForTheme(theme: string) {
+  return theme === 'dark' ? 'mapbox://styles/mapbox/dark-v11' : 'mapbox://styles/mapbox/outdoors-v11'
+}
+
 function MapBox({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JSX.Element {
   const { hoverCoordinate } = useMapContext()
   const [stateMap, setStateMap] = useState(null)
@@ -29,10 +34,12 @@ function MapBox({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JS
   const router = useRouter()
   const queryRoute = router.query.slug
 
+  const { resolvedTheme } = useTheme()
+
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/outdoors-v11',
+      style: getStyleForTheme(resolvedTheme),
       center: [initialLng, initialLat],
       zoom,
     })
