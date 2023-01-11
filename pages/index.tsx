@@ -43,7 +43,7 @@ function Home({ routes }: RoutesProps) {
   return (
     <div className="pt-3">
       <nav className="flex justify-end">
-        <Button onClick={() => window.open('mailto:samuelkraft@me.com?subject=🏃‍♀️ I want to add a route to Trail Runner!')}>
+        <Button onClick={() => window.open('mailto:samuelkraft@me.com?subject=🏃‍♀️ I want to add a route to Trail Routes!')}>
           Add Route
         </Button>
       </nav>
