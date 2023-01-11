@@ -23,6 +23,7 @@
 
   html {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    background: var(--olive1);
   }
 
   .dark-theme .bg-blur {
