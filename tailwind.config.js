@@ -16,6 +16,20 @@ module.exports = {
           darkest: '#2F3427',
         },
       },
+      textColor: {
+        primary: 'var(--olive12)',
+        secondary: 'var(--olive11)',
+        tertiary: 'var(--olive8)',
+      },
+      backgroundColor: {
+        primary: 'var(--olive1)',
+        button: 'var(--bg-button)',
+        'button-hover': 'var(--bg-button-hover)',
+      },
+      borderColor: {
+        primary: 'var(--olive6)',
+        'primary-hover': 'var(--olive7)',
+      },
     },
     maxWidth: {
       '1/2': '50%',

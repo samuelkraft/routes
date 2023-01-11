@@ -11,6 +11,7 @@
   "dependencies": {
     "@mapbox/polyline": "^1.1.1",
     "@mapbox/togeojson": "^0.16.0",
+    "@radix-ui/colors": "^0.1.8",
     "@turf/helpers": "^6.5.0",
     "@turf/length": "^6.5.0",
     "@types/gtag.js": "^0.0.12",
@@ -23,6 +24,7 @@
     "mapbox-gl": "^2.10.0",
     "next": "13.0.0",
     "next-seo": "^5.11.1",
+    "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-use-measure": "^2.1.1",

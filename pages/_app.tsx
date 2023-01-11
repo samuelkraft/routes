@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import SEO from 'components/seo'
+import { ThemeProvider } from 'next-themes'
 
 import * as gtag from 'lib/gtag'
 import '../styles/globals.css'
@@ -36,25 +37,33 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   }, [router])
 
   return (
-    <MapProvider>
-      <SEO />
-      <Head>
-        <meta name="viewport" content="width=device-width, user-scalable=no" />
-      </Head>
-      <main className="flex bg-[#E6E4E0] sm:h-screen w-screen sm:overflow-hidden">
-        <aside
-          ref={aside}
-          className="w-full sm:w-[430px] bg-white min-h-screen sm:overflow-y-auto sm:overflow-x-hidden sm:absolute top-0 bottom-0 px-5"
-        >
-          <Component {...pageProps} />
-        </aside>
-        {isSmall && (
-          <div className="block text-xl text-forest ml-[430px] h-screen relative w-full">
-            <MapBox routes={pageProps.routes} initialLat={pageProps.initialLat} initialLng={pageProps.initialLng} />
-          </div>
-        )}
-      </main>
-    </MapProvider>
+    <ThemeProvider
+      attribute="class"
+      value={{
+        light: 'light-theme',
+        dark: 'dark-theme',
+      }}
+    >
+      <MapProvider>
+        <SEO />
+        <Head>
+          <meta name="viewport" content="width=device-width, user-scalable=no" />
+        </Head>
+        <main className="flex bg-[#E6E4E0] sm:h-screen w-screen sm:overflow-hidden">
+          <aside
+            ref={aside}
+            className="w-full sm:w-[430px] bg-primary min-h-screen sm:overflow-y-auto sm:overflow-x-hidden sm:absolute top-0 bottom-0 px-5"
+          >
+            <Component {...pageProps} />
+          </aside>
+          {isSmall && (
+            <div className="block text-xl text-forest ml-[430px] h-screen relative w-full">
+              <MapBox routes={pageProps.routes} initialLat={pageProps.initialLat} initialLng={pageProps.initialLng} />
+            </div>
+          )}
+        </main>
+      </MapProvider>
+    </ThemeProvider>
   )
 }
 
