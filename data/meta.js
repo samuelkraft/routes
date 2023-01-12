@@ -95,7 +95,7 @@ const meta = {
   kinnerstugan: {
     description: 'Beautiful route at Lummelunda, Gotland that goes along breathtaking cliffs by the ocean.',
     rating: 5,
-    location: 'Lummelunda - Gotland',
+    location: 'Lummelunda · Gotland',
     color: colors.red[500],
     added: '2020-06-28',
   },
@@ -103,7 +103,7 @@ const meta = {
     description:
       'A very flat 6k run on (mostly) gravel. Not technical at all, so good for recovery runs or going flat-out. This route goes "through" some properties but on public roads, be nice and say hi if you meet anyone 😊.',
     rating: 3,
-    location: 'Salbohed - Västmanland',
+    location: 'Salbohed · Västmanland',
     color: colors.emerald[500],
     added: '2021-11-21',
   },
@@ -111,7 +111,7 @@ const meta = {
     description:
       'With a mix of mountains and pavement, this route starts at San Augustin and goes around the goat cheese farm "🐐 Quesería la Gloria". The trail part starts by the end of the parking lot of Hotel Gloria Palace. Pass through the tunnel and make a sharp left after ~100 meters on a small steep trail (270m at 22% avg grade). After this hill the trail gets easier with a steady climb towards the goat farm. Take a right after passing the farm which will bring you down towards the ocean (with amazing views). After the descent simply follow the paved road back towards San Augustin.',
     rating: 4,
-    location: 'San Augustin - Gran Canaria',
+    location: 'San Augustin · Gran Canaria',
     color: colors.yellow[500],
     added: '2022-09-16',
   },
@@ -119,9 +119,17 @@ const meta = {
     description:
       'A mountain-loop that starts by Las Burras beach in San Augustin and goes around the ravine "Barranco del Canario".\nStart by Las Burras parking lot going into a small forest section next to the football field. You will pass a small road/water drainage section, after this make sure to hold left instead of continuing stright as there are homeless people living in the forest up ahead.\nPass through the tunnel under the highway then simply follow the path until it splits in two, where you should take the left turn. The path will quickly lead you to the steepest climb of the route, and after that the climb flattens a little bit. On your right you will have an amazing view over Barranco Del Toro the whole climb.\nThe trail down is wider and easier to run than the climb, and takes you all the way down to another highway tunnel passage. Take a right after the tunnel following the path until you come out on the car road taking you back to Burras Beach (Ocean dip optional but highly recommended 🏊‍♂️).',
     rating: 5,
-    location: 'San Augustin - Gran Canaria',
+    location: 'San Augustin · Gran Canaria',
     color: colors.red[400],
     added: '2022-09-23',
+  },
+  duvnas_utskog: {
+    description:
+      'A fun loop crossing through parts of Nyckelviken on the way towards Duvnäs utskog and Skuru. Some really nice hills (almost 20% gradients) and amazing views over the ocean. In the Kungshamn and Duvnäs utskog area there are short stretches of pavement, but its worth it to access the trails! Its recommended to bring your phone or load the gpx on you watch as there are tons of small trails just before arriving at Kungshamn and easy to run the wrong one.',
+    rating: 4,
+    location: 'Nacka · Stockholm',
+    color: colors.green[500],
+    added: '2023-01-12',
   },
 }
 
