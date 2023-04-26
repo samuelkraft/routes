@@ -131,6 +131,13 @@ const meta = {
     color: colors.green[500],
     added: '2023-01-12',
   },
+  julso_scenic_trail: {
+    description: 'placeholder description',
+    rating: 4,
+    location: 'Julsø · Denmark',
+    color: colors.amber[500],
+    added: '2023-04-26',
+  },
 }
 
 module.exports = { meta }
