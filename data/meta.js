@@ -132,9 +132,9 @@ const meta = {
     added: '2023-01-12',
   },
   julso_scenic_trail: {
-    description: 'placeholder description',
+    description: 'From the station town of Ry, you are sent off along the lakes, and the route starts idyllically and flat until you reach Dynæs. In the old days, there was a fortress here. Up through Old Lave and around the hills of Linå Vesterskov. After this, the majestic peaks Sindbjerg and Stoubjerg are hit. The trip now zigzags through the hills of Nordskoven - before Silkeborg is suddenly glimpsed, and you run flat through to the finish line at Silkeborg Sports Club.',
     rating: 4,
-    location: 'Julsø · Denmark',
+    location: 'Arriva Scenic Trail, Julsø · Denmark',
     color: colors.amber[500],
     added: '2023-04-26',
   },
