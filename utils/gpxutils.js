@@ -71,6 +71,7 @@ const routes = routeFilePaths.map(filePath => {
     location: metadata?.location || null,
     type: metadata?.type || 'run',
     added: metadata?.added,
+    author: metadata?.author || null,
     coordinates,
   }
 })

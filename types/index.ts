@@ -24,6 +24,10 @@ export type Route = {
   location?: string
   color: string
   date: string
+  author?: {
+    name: string
+    url: string
+  }
 }
 
 export type Routes = Array<Route>
