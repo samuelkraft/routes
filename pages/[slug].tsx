@@ -167,6 +167,15 @@ function RoutePage({ route, initialLat, initialLng }: RoutePageProps) {
 
           {route.description && <p className="mb-3 leading-relaxed whitespace-pre-wrap text-primary">{route.description}</p>}
 
+          {route.author && (
+            <p className="mb-3">
+              <span className="text-primary">Added by</span>{' '}
+              <a className="text-forest" href={route.author.url} target="_blank" rel="noopener noreferrer">
+                {route.author.name}
+              </a>
+            </p>
+          )}
+
           {link && (
             <p className="mb-5">
               See route on{' '}
