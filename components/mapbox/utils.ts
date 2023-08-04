@@ -40,6 +40,7 @@ export const setAllLayersVisibility = (map, slug: string, essentialsVisibility: 
     map.setLayoutProperty(`${slug}-fill`, 'visibility', essentialsVisibility)
     map.setLayoutProperty(`${slug}-end`, 'visibility', extrasVisiblity || essentialsVisibility)
     map.setLayoutProperty(`${slug}-start`, 'visibility', extrasVisiblity || essentialsVisibility)
+    map.setLayoutProperty(`${slug}-points`, 'visibility', extrasVisiblity || essentialsVisibility)
   }
 }
 

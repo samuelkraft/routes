@@ -29,6 +29,7 @@ module.exports = {
       borderColor: {
         primary: 'var(--olive6)',
         'primary-hover': 'var(--olive7)',
+        background: 'var(--olive1)',
       },
     },
     maxWidth: {

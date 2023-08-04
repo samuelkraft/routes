@@ -130,6 +130,14 @@ const meta = {
     location: 'Nacka · Stockholm',
     color: colors.green[500],
     added: '2023-01-12',
+    points: [
+      {
+        lat: 59.33477309132903,
+        lng: 18.21082337704159,
+        description: '<strong>Great viewpoint</strong><p>Great view over the ocean where you can spot big boats</p>',
+      },
+      { lat: 59.32682096582746, lng: 18.217041682304853, description: 'Long stairs' },
+    ],
   },
   julso_scenic_trail: {
     description:

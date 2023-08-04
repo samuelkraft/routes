@@ -146,6 +146,52 @@ function MapBox({ routes, initialLng = lng, initialLat = lat }: MapBoxProps): JS
           map.getCanvas().style.cursor = ''
           map.setPaintProperty(slug, 'line-width', 4)
         })
+
+        map.loadImage('/pin.png', (error, image) => {
+          if (error) throw error
+
+          // Add the image to the map style.
+          map.addImage('pin', image)
+        })
+
+        // Add a layer showing points/markers
+        map.addLayer({
+          id: `${slug}-points`,
+          type: 'symbol',
+          source: slug,
+          layout: {
+            'icon-image': ['get', 'icon'],
+            'icon-size': 0.1,
+            'icon-allow-overlap': true,
+          },
+        })
+
+        // When a click event occurs on a feature in the places layer, open a popup at the
+        // location of the feature, with description HTML from its properties.
+        map.on('click', `${slug}-points`, e => {
+          // Copy coordinates array.
+          const coordinates = e.features[0].geometry.coordinates.slice()
+          const { description } = e.features[0].properties
+
+          // Ensure that if the map is zoomed out such that multiple
+          // copies of the feature are visible, the popup appears
+          // over the copy being pointed to.
+          while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360
+          }
+
+          new mapboxgl.Popup().setLngLat(coordinates).setHTML(description).addTo(map)
+        })
+
+        // Change the cursor to a pointer when the mouse is over the points layer.
+        map.on('mouseenter', `${slug}-points`, () => {
+          map.getCanvas().style.cursor = 'pointer'
+        })
+
+        // Change it back to a pointer when it leaves.
+        map.on('mouseleave', `${slug}-points`, () => {
+          map.getCanvas().style.cursor = ''
+        })
       })
       // Save map in state so it can be accessed later
       setStateMap(map)
