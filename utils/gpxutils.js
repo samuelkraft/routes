@@ -59,6 +59,25 @@ const routes = routeFilePaths.map(filePath => {
     if (elevationDifference > 0) elevation += elevationDifference
   })
 
+  /* Add optional points of interest as features to the geojson */
+  if (metadata?.points) {
+    metadata.points.forEach((point, i) => {
+      const { lat, lng, description } = point
+      geoJson.features.push({
+        type: 'Feature',
+        properties: {
+          id: `point-${i}`,
+          description,
+          icon: 'pin',
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [lng, lat],
+        },
+      })
+    })
+  }
+
   return {
     distance,
     elevation,

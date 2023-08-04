@@ -59,3 +59,39 @@ div.mapboxgl-map {
   font-family: 'Proxima Nova', Helvetica Neue;
   text-decoration: underline;
 }
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font: 12px/20px 'Proxima Nova';
+  @apply text-primary text-sm;
+}
+
+.mapboxgl-popup-content {
+  @apply bg-primary p-6;
+}
+
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip {
+  @apply border-t-background;
+}
+
+.mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+  @apply border-l-background;
+}
+
+.mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+  @apply border-r-background;
+}
+
+.mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip {
+  @apply border-b-background;
+}
+
+.mapboxgl-popup-close-button {
+  right: 2px;
+  top: 2px;
+  @apply w-7 h-7 rounded-full text-2xl;
+}
